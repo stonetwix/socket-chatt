@@ -1,6 +1,7 @@
 import { Component, CSSProperties } from 'react';
 import { Layout, Menu } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
+import { LockFilled} from '@ant-design/icons';
 
 const { Sider } = Layout;
 class SiderMenu extends Component {
@@ -32,7 +33,8 @@ class SiderMenu extends Component {
                     <Menu.Item key="3">
                         <Link to={'/'}>Room 3</Link>
                     </Menu.Item>
-                    <h3 style={headlineStylePrivate}>Private rooms</h3>
+                    
+                    <h3 style={headlineStylePrivate}><LockFilled /> &nbsp; Private rooms</h3>
                     <Menu.Item key="4">
                         <Link to={'/'}> Room 1</Link>
                     </Menu.Item>
@@ -52,14 +54,16 @@ export default SiderMenu;
 
 const headlineStyleOpen: CSSProperties = {
     paddingTop: '8rem', 
-    paddingBottom: '2rem',
+    paddingBottom: '1rem',
     paddingLeft: '1rem',
     fontWeight: 'bold',
+    color: '#44474f'
 }
 
 const headlineStylePrivate: CSSProperties = {
     paddingTop: '3rem', 
-    paddingBottom: '2rem',
+    paddingBottom: '1rem',
     paddingLeft: '1rem',
     fontWeight: 'bold',
+    color: '#44474f'
 }

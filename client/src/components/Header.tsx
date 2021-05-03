@@ -5,14 +5,13 @@ import logo from '../assets/logo-white.png';
 import { Link } from 'react-router-dom';
 
 class Navbar extends Component {
-
   render() {
         return (
             <Header style={layoutStyle}>
                 <Row style={{ width: '100%' }}>
                     <Col span={24} style={colStyle}>
                         <Link to='/'>
-                        <img src={logo} alt="logo" style={logoStyle} />
+                            <img src={logo} alt="logo" style={logoStyle} />
                         </Link>
                     </Col>
                 </Row>
@@ -39,6 +38,9 @@ const layoutStyle: CSSProperties = {
 
   const colStyle: CSSProperties = {
     width: '100%',
+    display: 'flex', 
+    alignItems:'center',
+    justifyItems:'center',
   }
 
   const logoStyle: CSSProperties = {
