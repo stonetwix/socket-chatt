@@ -14,9 +14,12 @@ io.on('connection', (socket) => {
     // Sends back the message to app for everyone to see
     // When this is been fetch on the client, use it like a variable.
     // If it is a object write variable.user or what value you would like to get
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
+    socket.on('chat message', (data) => {
+        io.emit('chat message', data);
       });
+
+    // Sends a welcome message to the connected user
+    socket.emit('welcome-message', "Welcome! Time to Woffle!")
 
     // Send back message to everyone besides the author
     // io.on('connection', (socket) => {
@@ -31,10 +34,6 @@ io.on('connection', (socket) => {
     //       socket.emit('chat message', msg);
     //     });
     // });
-
-    // This sends a message to the client that someone has been connected or disconnected to the chatroom
-    // Use arrive to write the connect-message
-    io.emit('arrive', 'New user has been connected!');
 
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
