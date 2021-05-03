@@ -1,38 +1,79 @@
-.App {
-  text-align: center;
+@import '~antd/dist/antd.css';
+
+ant-menu-horizontal {
+  border-bottom: none;
+  box-shadow: none;
+  border: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+ul .ant-menu-horizontal {
+  background: transparent;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.ant-menu-horizontal > .ant-menu-item {
+  border-bottom: white !important;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.ant-menu-horizontal > .ant-menu-item-only-child {
+  margin-top: 0rem;
+}
+
+
+.ant-form-horizontal {
+  width: 80%;
+}
+
+.ant-list-vertical .ant-list-item-extra {
+  margin: 0;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background: #98c3bc;
+}
+
+.ant-menu-item-selected {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.ant-menu-inline .ant-menu-item::after {
+  border-right: 5px solid #c1d0cc;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.ant-menu-item-selected a {
+  color: white;
+}
+
+.ant-menu-item:hover {
+  color: white;
+}
+
+.ant-menu-item a:hover {
+  color: white;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  background: #98c3bc;
+  border-color: #98c3bc;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  border-radius: 10rem;
+}
+
+.ant-btn-primary:hover {
+  color: #fff;
+  background: #78757C;
+  border-color: #78757C;
+}
+
+.ant-btn:active, .ant-btn:focus {
+  color: #fff;
+  background: #78757C;
+  border-color: #78757C;
+}
+
+::selection {
+  background: #78757C;
 }
