@@ -1,7 +1,7 @@
 import { Component, CSSProperties } from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Button } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
-import { LockFilled} from '@ant-design/icons';
+import { LockFilled, PlusCircleFilled } from '@ant-design/icons';
 
 const { Sider } = Layout;
 class SiderMenu extends Component {
@@ -23,7 +23,10 @@ class SiderMenu extends Component {
                 }}
             >
                 <Menu mode="inline" style={{ background: '#f1edea' }}>
-                    <h3 style={headlineStyleOpen}>Open rooms</h3>
+                    <Button type="primary" icon={<PlusCircleFilled />} style={{ marginTop: '8rem', marginLeft: '1rem' }}>
+                        Create room
+                    </Button>
+                    <h3 style={headlineStyle}>Open rooms</h3>
                     <Menu.Item key="1">
                         <Link to={'/'}> Room 1</Link>
                     </Menu.Item>
@@ -34,7 +37,7 @@ class SiderMenu extends Component {
                         <Link to={'/'}>Room 3</Link>
                     </Menu.Item>
                     
-                    <h3 style={headlineStylePrivate}><LockFilled /> &nbsp; Private rooms</h3>
+                    <h3 style={headlineStyle}><LockFilled /> &nbsp; Private rooms</h3>
                     <Menu.Item key="4">
                         <Link to={'/'}> Room 1</Link>
                     </Menu.Item>
@@ -52,15 +55,7 @@ class SiderMenu extends Component {
 
 export default SiderMenu;
 
-const headlineStyleOpen: CSSProperties = {
-    paddingTop: '8rem', 
-    paddingBottom: '1rem',
-    paddingLeft: '1rem',
-    fontWeight: 'bold',
-    color: '#44474f'
-}
-
-const headlineStylePrivate: CSSProperties = {
+const headlineStyle: CSSProperties = {
     paddingTop: '3rem', 
     paddingBottom: '1rem',
     paddingLeft: '1rem',

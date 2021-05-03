@@ -59,21 +59,20 @@ ul .ant-menu-horizontal {
   border-color: #98c3bc;
   text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
   box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
-  border-radius: 10rem;
 }
 
 .ant-btn-primary:hover {
   color: #fff;
-  background: #78757C;
-  border-color: #78757C;
+  background: #85b0a4;
+  border-color: #85b0a4;
 }
 
 .ant-btn:active, .ant-btn:focus {
   color: #fff;
-  background: #78757C;
-  border-color: #78757C;
+  background: #85b0a4;
+  border-color: #85b0a4;
 }
 
 ::selection {
-  background: #78757C;
+  background: #85b0a4;
 }
