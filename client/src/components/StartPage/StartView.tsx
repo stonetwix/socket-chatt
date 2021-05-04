@@ -1,23 +1,7 @@
 import { Input, Button, Row, Col, Divider, Form } from "antd";
 import { CSSProperties, Component } from "react";
 
-/*
-const layout = {
-    labelCol: {
-    span: 8,
-  },
-    wrapperCol: {
-      span: 16,
-    },
-  };
-  
-  const tailLayout = {
-    wrapperCol: {
-      offset: 8,
-      span: 16,
-    },
-  };
-*/
+
 
 class Welcome extends Component {
   render() {
@@ -30,22 +14,22 @@ class Welcome extends Component {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-
             }}
           >
-            Welcome to chatname
+            Welcome to Chatname
           </h1>
           <p>
             {" "}
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea quasi
             quam illum eos sit eveniet consequuntur cumque suscipit, optio minus
             ipsum cum magnam fuga ratione iste omnis. Aspernatur, fuga mollitia!
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea quasi
+            quam illum eos sit eveniet consequuntur cumque suscipit, optio minus
+            ipsum cum magnam fuga ratione iste omnis. Aspernatur, fuga mollitia!
           </p>
 
           <Divider plain>Start here!</Divider>
-          <div style={formstyle}>
-
-          
+          <div style={formStyle}>
           <h3
             style={{
               fontWeight: "bold",
@@ -80,13 +64,10 @@ const containerStyle: CSSProperties = {
   margin: "auto",
   display: "flex",
   justifyContent: "center",
-
 };
 
 const columnStyle: CSSProperties = {
   marginTop: "14rem",
- 
-  
 };
 
 const buttonStyle: CSSProperties = {
@@ -96,7 +77,7 @@ const buttonStyle: CSSProperties = {
   border: "none",
   marginTop: "1rem",
 };
-const formstyle: CSSProperties = {
+const formStyle: CSSProperties = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
