@@ -16,8 +16,9 @@ function App() {
         <ScrollToTop />
         <Header />
         <Switch>
-          <Route exact path="/" component={ChatRoomView} />
-          <Route exact path="/" component={AddNewRoom} />
+          <Route exact path="/" component={StartView} />
+          <Route exact path="/rooms" component={ChatRoomView} />
+          <Route exact path="/new-room" component={AddNewRoom} />
           {/* <Route exact path="/" component={LogIn} /> */}
           {/* <Route exact path="/" component={StartView} /> */}
         </Switch>

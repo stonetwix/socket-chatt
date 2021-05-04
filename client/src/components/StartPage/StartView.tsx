@@ -1,5 +1,6 @@
 import { Input, Button, Row, Col, Divider, Form } from "antd";
-import { CSSProperties, Component } from "react";
+import React, { CSSProperties, Component } from "react";
+import { Link } from "react-router-dom";
 
 
 
@@ -45,9 +46,11 @@ class Welcome extends Component {
             </Form.Item>
 
             <Form.Item>
-              <Button htmlType="submit" style={buttonStyle}>
-                Join
-              </Button>
+              <Link to='/rooms'>
+                <Button htmlType="submit" style={buttonStyle}>
+                  Join
+                </Button>
+              </Link>
             </Form.Item>
           </Form>
           </div>
