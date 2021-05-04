@@ -3,43 +3,37 @@ const http = require('http')
 const mongoose = require('mongoose');
 const { Server } = require("socket.io");
 
+const formatMessage = require('./middlewares/handleMessages')
+
 const app = express();
 const port = 3001;
 
 const server = http.createServer(app);
 const io = new Server(server)
 
+const bot = 'Woffle bot'
+
 io.on('connection', (socket) => {
 
-    // Sends back the message to app for everyone to see
-    // When this is been fetch on the client, use it like a variable.
-    // If it is a object write variable.user or what value you would like to get
-    socket.on('chat message', (data) => {
-        io.emit('chat message', data);
-      });
-
     // Sends a welcome message to the connected user
-    socket.emit('welcome-message', "Welcome! Time to Woffle!")
+    socket.emit('message', formatMessage(bot ,"Welcome to Woffle!"))
 
-    // Send back message to everyone besides the author
-    // io.on('connection', (socket) => {
-    //     socket.on('chat message', (msg) => {
-    //     socket.broadcast.emit('chat message', msg);
-    //     });
-    // });
+    //Sends back message to everyone that a new user has been connected
+    socket.broadcast.emit('message', formatMessage(bot, 'A user has joined the Woffle'))
 
-    // Send back the message just to the author
-    // io.on('connection', (socket) => {
-    //     socket.on('chat message', (msg) => {
-    //       socket.emit('chat message', msg);
-    //     });
-    // });
+    // Handle the chat messaging from user inputs
+    // When get the username and chatmessage:
+    // formatMessage(msg.user, msg.msg)
+    socket.on('chatMsg', (msg) => {
+        io.emit('message', formatMessage('USER', msg))
+    });
 
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
-        socket.broadcast.emit('leaving', 'User has left the chatroom!');
+        io.emit('message', formatMessage(bot, 'User has left the chatroom!'))
     })
+
 });
 
 async function run() {
