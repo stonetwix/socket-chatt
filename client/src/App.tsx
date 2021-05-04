@@ -23,6 +23,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={StartView} />
             <Route exact path="/rooms" component={ChatRoomView} />
+            <Route exact path="/room/:name" component={ChatRoomView} />
             <Route exact path="/new-room" component={AddNewRoom} />
             {/* <Route exact path="/" component={LogIn} /> */}
             {/* <Route exact path="/" component={StartView} /> */}
