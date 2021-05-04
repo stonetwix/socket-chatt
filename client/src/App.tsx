@@ -1,10 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Header from './components/Header';
 import ScrollToTop from './components/ScrollToTop';
 import SiderMenu from './components/ChatRooms/SiderMenu';
+import React from 'react';
+import StartView from './components/StartPage/StartView';
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
         <Header />
         <SiderMenu />
         <Switch>
+        <StartView /> 
           {/* <Route exact path="/" component={} /> */}
         </Switch>
       </Router>
