@@ -6,6 +6,8 @@ import ScrollToTop from './components/ScrollToTop';
 import AddNewRoom from './components/AddRoom/AddNewRoom';
 import LogIn from './components/LogIn/LogInToPrivateRoom';
 import SiderMenu from './components/ChatRooms/SiderMenu';
+import ChatRoomFeed from './components/ChatRooms/ChatRoomFeed';
+import ChatRoomView from './components/ChatRooms/ChatRoomView';
 import StartView from './components/StartPage/StartView';
 
 function App() {
@@ -14,6 +16,7 @@ function App() {
         <ScrollToTop />
         <Header />
         <Switch>
+          <Route exact path="/" component={ChatRoomView} />
           <Route exact path="/" component={AddNewRoom} />
           {/* <Route exact path="/" component={LogIn} /> */}
           {/* <Route exact path="/" component={StartView} /> */}
