@@ -1,19 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from './components/Header';
 import ScrollToTop from './components/ScrollToTop';
-import SiderMenu from './components/ChatRooms/SiderMenu';
+import AddNewRoom from './components/AddRoom/AddNewRoom';
 
 function App() {
   return (
     <Router>
         <ScrollToTop />
         <Header />
-        <SiderMenu />
         <Switch>
-          {/* <Route exact path="/" component={} /> */}
+          <Route exact path="/" component={AddNewRoom} />
         </Switch>
       </Router>
   );
