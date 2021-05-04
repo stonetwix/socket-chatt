@@ -1,9 +1,11 @@
+import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from './components/Header';
 import ScrollToTop from './components/ScrollToTop';
+import AddNewRoom from './components/AddRoom/AddNewRoom';
+import LogIn from './components/LogIn/LogInToPrivateRoom';
 import SiderMenu from './components/ChatRooms/SiderMenu';
-import React from 'react';
 import StartView from './components/StartPage/StartView';
 
 function App() {
@@ -11,10 +13,10 @@ function App() {
     <Router>
         <ScrollToTop />
         <Header />
-        <SiderMenu />
         <Switch>
-        <StartView /> 
-          {/* <Route exact path="/" component={} /> */}
+          <Route exact path="/" component={AddNewRoom} />
+          {/* <Route exact path="/" component={LogIn} /> */}
+          {/* <Route exact path="/" component={StartView} /> */}
         </Switch>
       </Router>
   );
