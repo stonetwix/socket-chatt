@@ -37,14 +37,17 @@ io.on('connection', (socket) => {
         io.emit('message', formatMessage('USER', msg))
     });
 
-    socket.on('createRoom', (msg) => {
-        const { room, user, isPrivate, password } = msg;
-        state.rooms[room] = {
-            user: user,
-            isPrivate: isPrivate,
-            password: password
-        };
-    })
+    socket.on('createRoom', (room) => {
+        // const { roomName, isPrivate, password } = room;
+        // state.rooms[room] = {
+        //     roomName: roomName,
+        //     isPrivate: isPrivate,
+        //     password: password
+        // };
+        socket.join(room);
+        console.log(room);
+        socket.emit('roomCreated', room);
+    });
 
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
