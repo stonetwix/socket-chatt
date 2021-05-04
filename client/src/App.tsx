@@ -6,15 +6,15 @@ import Header from './components/Header';
 import ScrollToTop from './components/ScrollToTop';
 import SiderMenu from './components/ChatRooms/SiderMenu';
 import ChatRoomFeed from './components/ChatRooms/ChatRoomFeed';
+import ChatRoomView from './components/ChatRooms/ChatRoomView';
 
 function App() {
   return (
     <Router>
         <ScrollToTop />
         <Header />
-        <ChatRoomFeed />
         <Switch>
-          {/* <Route exact path="/" component={} /> */}
+          <Route exact path="/" component={ChatRoomView} />
         </Switch>
       </Router>
   );

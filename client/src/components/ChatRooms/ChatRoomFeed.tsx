@@ -1,11 +1,7 @@
-import React, { Component, CSSProperties } from 'react';
+import { Component, CSSProperties } from 'react';
 import { Comment, Tooltip, List } from 'antd';
-import { Input, Button, Form } from 'antd';
 import moment from 'moment';
-import Layout, { Content } from 'antd/lib/layout/layout';
-import SiderMenu from './SiderMenu';
 
-const { TextArea } = Input;
 
 const data = [
     {
@@ -61,41 +57,24 @@ const data = [
 
 class ChatRoomFeed extends Component {
 
-    render() {
-      return (
-        <Layout style={{ background: '#fff' }}>
-          <SiderMenu />
-          <Content style={{ margin: '8rem', background: '#fff' }}>
-          <div className="site-layout-background" style={{ minHeight: 360 }}>
-
-            <List 
-            style={feedlist}
-            dataSource={data}
-            renderItem={item => (
-                <li>
-                <Comment
-                    author={item.author}
-                    avatar={item.avatar}
-                    content={item.content}
-                    datetime={item.datetime}
-                />
-                </li>
-            )}
+  render() {
+    return (
+      <div>
+        <List 
+          style={feedlist}
+          dataSource={data}
+          renderItem={item => (
+            <Comment
+              author={item.author}
+              avatar={item.avatar}
+              content={item.content}
+              datetime={item.datetime}
             />
-                  <Form style={replystyle}>
-        <TextArea 
-          rows={2}
-          style={textareastyle} >
-        </TextArea>
-        <Button type="primary" style={buttonstyle}>
-         SEND
-         </Button>
-         </Form>
-         </div>
-        </Content>
-        </Layout>
-        ) 
-    }
+          )}
+        />
+      </div>
+    ) 
+  }
 }
  
 
@@ -105,20 +84,5 @@ export default ChatRoomFeed;
 const feedlist: CSSProperties = {
     display: "flex",
     margin: "auto",
-    width: "60%"
-  };
-  const textareastyle: CSSProperties = {
-    display: "flex",
-    margin: "auto",
-    width: "60%",
-  };
-  const replystyle: CSSProperties = {
-    display: "flex",
-    margin: "auto",
-    flexDirection: "column",
-  
-  };
-  const buttonstyle: CSSProperties = {
-    display: "flex",
-    margin: "auto",
+    width: "100%"
   };
