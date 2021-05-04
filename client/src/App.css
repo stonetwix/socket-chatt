@@ -1,6 +1,6 @@
 @import '~antd/dist/antd.css';
 
-ant-menu-horizontal {
+.ant-menu-horizontal {
   border-bottom: none;
   box-shadow: none;
   border: none;

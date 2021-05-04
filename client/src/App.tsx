@@ -1,12 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from './components/Header';
 import ScrollToTop from './components/ScrollToTop';
+import AddNewRoom from './components/AddRoom/AddNewRoom';
+import LogIn from './components/LogIn/LogInToPrivateRoom';
 import SiderMenu from './components/ChatRooms/SiderMenu';
 import ChatRoomFeed from './components/ChatRooms/ChatRoomFeed';
 import ChatRoomView from './components/ChatRooms/ChatRoomView';
+import StartView from './components/StartPage/StartView';
 
 function App() {
   return (
@@ -15,6 +17,9 @@ function App() {
         <Header />
         <Switch>
           <Route exact path="/" component={ChatRoomView} />
+          <Route exact path="/" component={AddNewRoom} />
+          {/* <Route exact path="/" component={LogIn} /> */}
+          {/* <Route exact path="/" component={StartView} /> */}
         </Switch>
       </Router>
   );
