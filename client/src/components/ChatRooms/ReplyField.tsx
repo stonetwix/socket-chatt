@@ -13,7 +13,7 @@ class ReplyMessage extends Component {
           style={textareastyle} >
         </TextArea>
         <Button htmlType="submit" type="primary" style={buttonstyle}>
-          Add Comment
+          Send Message
         </Button>
       </Form>
     )
