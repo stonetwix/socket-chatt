@@ -11,11 +11,7 @@ import ChatRoomView from './components/ChatRooms/ChatRoomView';
 import StartView from './components/StartPage/StartView';
 import {socket} from './socketUtils';
 
-// import { io } from "socket.io-client";
-// const endpoint = "http://localhost:3001";
-
 function App() {
-  //let socket = io(endpoint);
   socket.emit('chat message', 'hej');
 
   return (
@@ -23,8 +19,9 @@ function App() {
         <ScrollToTop />
         <Header />
         <Switch>
-          {/* <Route exact path="/" component={ChatRoomView} /> */}
-          <Route exact path="/" component={AddNewRoom} />
+          <Route exact path="/" component={StartView} />
+          <Route exact path="/rooms" component={ChatRoomView} />
+          <Route exact path="/new-room" component={AddNewRoom} />
           {/* <Route exact path="/" component={LogIn} /> */}
           {/* <Route exact path="/" component={StartView} /> */}
         </Switch>

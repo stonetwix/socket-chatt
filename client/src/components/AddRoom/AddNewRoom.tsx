@@ -1,6 +1,6 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../ChatRooms/SiderMenu';
 import { sendMessage } from '../../socketUtils';
 
@@ -109,13 +109,15 @@ class AddNewRoom extends Component<Props, State> {
 
                             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                    <Button 
-                                    type="primary"
-                                    onClick={() => {success()}} 
-                                    htmlType="submit" 
-                                    >
-                                    Save
-                                    </Button>
+                                    <Link to='/rooms'>
+                                        <Button 
+                                        type="primary"
+                                        onClick={() => {success()}} 
+                                        htmlType="submit" 
+                                        >
+                                        Save
+                                        </Button>
+                                    </Link>
                                 </div>
                             </Form.Item>
                         </Form>

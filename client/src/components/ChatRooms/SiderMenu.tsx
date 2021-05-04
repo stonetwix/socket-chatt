@@ -23,9 +23,11 @@ class SiderMenu extends Component {
                 }}
             >
                 <Menu mode="inline" style={{ background: '#f1edea' }}>
-                    <Button type="primary" icon={<PlusCircleFilled />} style={{ marginTop: '8rem', marginLeft: '1rem' }}>
-                        Create room
-                    </Button>
+                    <Link to='/new-room'>
+                        <Button type="primary" icon={<PlusCircleFilled />} style={{ marginTop: '8rem', marginLeft: '1rem' }}>
+                            Create room
+                        </Button>
+                    </Link>
                     <h3 style={headlineStyle}>Open rooms</h3>
                     <Menu.Item key="1">
                         <Link to={'/'}> Room 1</Link>
