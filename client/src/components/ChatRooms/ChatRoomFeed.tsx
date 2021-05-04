@@ -66,7 +66,7 @@ class ChatRoomFeed extends Component {
         <Layout style={{ background: '#fff' }}>
           <SiderMenu />
           <Content style={{ margin: '8rem', background: '#fff' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <div className="site-layout-background" style={{ minHeight: 360 }}>
 
             <List 
             style={feedlist}
@@ -120,6 +120,5 @@ const feedlist: CSSProperties = {
   };
   const buttonstyle: CSSProperties = {
     display: "flex",
-    alignItems: "flex-end",
-    margin: "auto"
+    margin: "auto",
   };
