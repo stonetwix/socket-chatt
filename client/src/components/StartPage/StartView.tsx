@@ -27,6 +27,10 @@ class Welcome extends Component {
           <h1
             style={{
               fontWeight: "bold",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+
             }}
           >
             Welcome to chatname
@@ -39,6 +43,9 @@ class Welcome extends Component {
           </p>
 
           <Divider plain>Start here!</Divider>
+          <div style={formstyle}>
+
+          
           <h3
             style={{
               fontWeight: "bold",
@@ -48,7 +55,7 @@ class Welcome extends Component {
             Enter your name
           </h3>
 
-          <Form>
+          <Form style={align}>
             <Form.Item name="username">
               <Input />
             </Form.Item>
@@ -59,6 +66,7 @@ class Welcome extends Component {
               </Button>
             </Form.Item>
           </Form>
+          </div>
         </Col>
       </Row>
     );
@@ -87,4 +95,16 @@ const buttonStyle: CSSProperties = {
   color: "white",
   border: "none",
   marginTop: "1rem",
+};
+const formstyle: CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+
+};
+const align: CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+
 };
