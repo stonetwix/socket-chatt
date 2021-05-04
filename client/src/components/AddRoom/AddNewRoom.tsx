@@ -14,18 +14,6 @@ const layout = {
   },
 };
 
-/* eslint-disable no-template-curly-in-string */
-const validateMessages = {
-  required: '${label} is required!',
-  types: {
-    email: '${label} is not a valid email!',
-    number: '${label} is not a valid number!',
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
-};
-
 interface Props extends RouteComponentProps<{ _id: string }> {}
 
 interface State {
@@ -91,50 +79,49 @@ class AddNewRoom extends Component<Props, State> {
         )
     }
 
-  render() {
-    const passwordField = this.state.isRoomPrivate ? this.createPasswordComponents() : <div></div>
-   
-    return (       
-      <Layout style={{ background: '#fff' }}>
-          <SiderMenu />
-          <Content style={{ margin: '8rem', background: '#fff' }}>
-              <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                  <Form
-                      {...layout}
-                      name="nest-messages"
-                      onFinish={this.onFinish}
-                      validateMessages={validateMessages}
-                  >
-                      <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>CREATE NEW ROOM</h1>
-                      <Form.Item name={["room", "name"]} label="Room name: " rules={[{ required: true }]}>
-                          <Input />
-                      </Form.Item>
+    render() {
+        const passwordField = this.state.isRoomPrivate ? this.createPasswordComponents() : <div></div>
     
-                      <Form.Item name={["room", "status"]} label="Status: " rules={[{ required: true }]}>
-                      <Select onChange={this.onSelectChange}>
-                          <Select.Option value="open">Open</Select.Option>
-                          <Select.Option value="private">Private</Select.Option>
-                      </Select>
-                      </Form.Item>
-                      {passwordField}
+        return (       
+            <Layout style={{ background: '#fff' }}>
+                <SiderMenu />
+                <Content style={{ margin: '8rem', background: '#fff' }}>
+                    <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                        <Form
+                            {...layout}
+                            name="nest-messages"
+                            onFinish={this.onFinish}
+                        >
+                            <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>CREATE NEW ROOM</h1>
+                            <Form.Item name={["room", "name"]} label="Room name: " rules={[{ required: true }]}>
+                                <Input />
+                            </Form.Item>
+            
+                            <Form.Item name={["room", "status"]} label="Status: " rules={[{ required: true }]}>
+                            <Select onChange={this.onSelectChange}>
+                                <Select.Option value="open">Open</Select.Option>
+                                <Select.Option value="private">Private</Select.Option>
+                            </Select>
+                            </Form.Item>
+                            {passwordField}
 
-                      <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
-                          <div style={{ display: "flex", justifyContent: "space-between" }}>
-                              <Button 
-                              type="primary"
-                              onClick={() => {success()}} 
-                              htmlType="submit" 
-                              >
-                              Save
-                              </Button>
-                          </div>
-                      </Form.Item>
-                  </Form>
-              </div>
-          </Content>
-      </Layout>
-    )
-  }
+                            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <Button 
+                                    type="primary"
+                                    onClick={() => {success()}} 
+                                    htmlType="submit" 
+                                    >
+                                    Save
+                                    </Button>
+                                </div>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                </Content>
+            </Layout>
+        )
+    }
 }
 
 export default withRouter(AddNewRoom); 
