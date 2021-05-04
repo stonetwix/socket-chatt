@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
         // };
         socket.join(room);
         console.log(room);
-        socket.emit('roomCreated', room);
+        io.emit('roomCreated', room);
     });
 
     // This sends a message to the client that someone has been disconnected from the chatroom
