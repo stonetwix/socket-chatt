@@ -16,7 +16,7 @@ class Welcome extends Component {
               alignItems: "center",
             }}
           >
-            Welcome to Chatname
+            Welcome to Waffle
           </h1>
           <p>
             {" "}
