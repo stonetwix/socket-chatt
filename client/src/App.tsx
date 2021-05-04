@@ -9,8 +9,11 @@ import SiderMenu from './components/ChatRooms/SiderMenu';
 import ChatRoomFeed from './components/ChatRooms/ChatRoomFeed';
 import ChatRoomView from './components/ChatRooms/ChatRoomView';
 import StartView from './components/StartPage/StartView';
+import {socket} from './socketUtils';
 
 function App() {
+  socket.emit('chat message', 'hej');
+
   return (
     <Router>
         <ScrollToTop />

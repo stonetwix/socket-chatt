@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../ChatRooms/SiderMenu';
+import { sendMessage } from '../../socketUtils';
 
 const { Content } = Layout;
 
@@ -23,6 +24,7 @@ interface State {
 const success = () => {
   message.success('The room has been added', 3);
 };
+
 class AddNewRoom extends Component<Props, State> {
     state: State = {
         isRoomPrivate: false,
