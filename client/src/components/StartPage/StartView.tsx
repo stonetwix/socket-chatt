@@ -27,8 +27,6 @@ class Welcome extends Component <Props, State> {
   }
 
   addUser = () => {
-
-     // A function that is imported from socketUtils
     addUsername(this.state.username)
     this.setState({username:""})
     this.props.history.push('/rooms');

@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
     // When get the username and chatmessage:
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
-        io.emit('message', formatMessage('USER', msg))
+        io.emit('message', formatMessage(username, msg))
         console.log(msg)
     });
 
