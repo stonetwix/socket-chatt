@@ -1,78 +1,36 @@
-import { Component, CSSProperties } from 'react';
+import { Component, ContextType, CSSProperties } from 'react';
 import { Comment, Tooltip, List } from 'antd';
 import moment from 'moment';
-
-
-const data = [
-    {
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().subtract(1, 'days').fromNow()}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().subtract(2, 'days').fromNow()}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().subtract(2, 'days').fromNow()}</span>
-        </Tooltip>
-      ),
-    },
-  ];
-
+import { ChattContext } from '../chatContext';
 
 class ChatRoomFeed extends Component {
 
+  context!: ContextType<typeof ChattContext>
+  static contextType = ChattContext;
+
   render() {
     return (
+      <ChattContext.Consumer>
+
+        {({ messenges }) => {
+          return(
       <div>
         <List 
           style={feedlist}
-          dataSource={data}
+          dataSource={messenges}
           renderItem={item => (
             <Comment
-              author={item.author}
-              avatar={item.avatar}
-              content={item.content}
-              datetime={item.datetime}
+              author={item}
+              // avatar={item.avatar}
+              content={item}
+              // datetime={item.datetime}
             />
           )}
         />
       </div>
+      )
+    }}
+      </ChattContext.Consumer>
     ) 
   }
 }
