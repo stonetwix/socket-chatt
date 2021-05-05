@@ -34,18 +34,18 @@ io.on('connection', (socket) => {
 
         // Pushes the room and user to the room array
         rooms.push({
-            room: msg.room,
-            user: msg.user
+            room: user.room,
+            user: user.user
         })
 
         // Joins the room that the user clicked on
-        socket.join(msg.room);   
+        socket.join(user.room);   
 
         // Sends a welcome message to the connected user
-        socket.emit('message', formatMessage(bot, msg.room ,`Hi ${msg.user}! Welcome to Woffle!`))
+        socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Woffle!`))
 
         //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(msg.room).emit('message', formatMessage(bot, msg.room , `${msg.user} has left Woffle!`))    
+        socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has left Woffle!`))    
     })
 
     // Handle the chat messaging from user inputs

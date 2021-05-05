@@ -14,6 +14,8 @@ function saveUser(msg, id) {
 
     // Pushes the clientinformation to the users variable
     users.push(user)
+
+    return user
 }
 
 // Format the message before it sends back to the frontend
