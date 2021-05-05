@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
     socket.emit('messages', messenges)
 
     socket.on('createRoom', (room) => {
-        socket.join(room);
+        socket.join(room.name);
         console.log(room);
         io.emit('roomCreated', room);
     });

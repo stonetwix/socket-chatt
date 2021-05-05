@@ -1,8 +1,9 @@
 import { Component, createContext } from 'react';
 import { socket } from '../socketUtils';
+import { Room } from './AddRoom/AddNewRoom';
 
 interface State {
-    rooms: string[],
+    rooms: Room[],
     messenges: string[],
 }
 
@@ -24,7 +25,7 @@ class ChattProvider extends Component<{}, State> {
         // Fetches the rooms from server
         socket.on('roomCreated', (event) => {
             console.log('Nytt rum: ', event);
-            this.setState({ rooms: [...this.state.rooms, event.room] });
+            this.setState({ rooms: [...this.state.rooms, event] });
         })
 
         // Fetches the messenges from room
@@ -48,7 +49,3 @@ class ChattProvider extends Component<{}, State> {
 }
 
 export default ChattProvider;
-
-function messenges(messenges: any) {
-    throw new Error('Function not implemented.');
-}
