@@ -13,8 +13,6 @@ import {socket} from './socketUtils';
 import ChattProvider from './components/chatContext';
 
 function App() {
-  socket.emit('chat message', 'hej');
-
   return (
     <ChattProvider>
       <Router>

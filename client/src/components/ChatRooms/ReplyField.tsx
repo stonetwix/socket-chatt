@@ -40,5 +40,4 @@ const replystyle: CSSProperties = {
 const buttonstyle: CSSProperties = {
   width: '10rem',
   marginTop: '1rem'
-
 };

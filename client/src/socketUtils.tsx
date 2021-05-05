@@ -8,5 +8,4 @@ export function sendMessage(msg: any) {
 
 export function createRoom(room: any) {
     socket.emit('createRoom', room);
-    //console.log('room created')
 }

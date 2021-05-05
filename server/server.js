@@ -38,12 +38,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createRoom', (room) => {
-        // const { roomName, isPrivate, password } = room;
-        // state.rooms[room] = {
-        //     roomName: roomName,
-        //     isPrivate: isPrivate,
-        //     password: password
-        // };
         socket.join(room);
         console.log(room);
         io.emit('roomCreated', room);

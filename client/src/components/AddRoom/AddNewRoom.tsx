@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../ChatRooms/SiderMenu';
-import { createRoom, sendMessage } from '../../socketUtils';
+import { createRoom } from '../../socketUtils';
 
 const { Content } = Layout;
 
