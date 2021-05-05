@@ -1,6 +1,5 @@
 import { Component, ContextType, CSSProperties } from 'react';
-import { Comment, Tooltip, List } from 'antd';
-import moment from 'moment';
+import { Comment, List } from 'antd';
 import { ChattContext } from '../chatContext';
 
 class ChatRoomFeed extends Component {
@@ -34,8 +33,6 @@ class ChatRoomFeed extends Component {
     ) 
   }
 }
- 
-
 
 export default ChatRoomFeed;
 

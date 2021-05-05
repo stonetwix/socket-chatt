@@ -34,12 +34,8 @@ class ReplyMessage extends Component<Props, State> {
      // A function that is imported from socketUtils
     sendMessage(this.state.msg)
     this.setState({msg:""})
-
   }
-
-
-
-
+  
   render() {
     return (
       <Form style={replystyle}>

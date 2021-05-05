@@ -41,8 +41,6 @@ io.on('connection', (socket) => {
             message: msg
         })
         io.emit('message', formatMessage('USER', msg))
-        console.log(msg)
-        console.log(messenges)
     });
 
     socket.emit('messages', messenges)
