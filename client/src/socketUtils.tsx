@@ -5,9 +5,14 @@ export const socket = io(endpoint);
 
 // Sends the chat-value to server
 export function sendMessage(msg: any) {
+
     socket.emit('chatMsg', msg);
 }
 
 export function createRoom(room: Room) {
     socket.emit('createRoom', room);
 }
+
+
+
+
