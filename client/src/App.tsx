@@ -10,22 +10,24 @@ import ChatRoomFeed from './components/ChatRooms/ChatRoomFeed';
 import ChatRoomView from './components/ChatRooms/ChatRoomView';
 import StartView from './components/StartPage/StartView';
 import {socket} from './socketUtils';
+import ChattProvider from './components/chatContext';
 
 function App() {
-  socket.emit('chat message', 'hej');
-
   return (
-    <Router>
-        <ScrollToTop />
-        <Header />
-        <Switch>
-          <Route exact path="/" component={StartView} />
-          <Route exact path="/rooms" component={ChatRoomView} />
-          <Route exact path="/new-room" component={AddNewRoom} />
-          {/* <Route exact path="/" component={LogIn} /> */}
-          {/* <Route exact path="/" component={StartView} /> */}
-        </Switch>
-      </Router>
+    <ChattProvider>
+      <Router>
+          <ScrollToTop />
+          <Header />
+          <Switch>
+            <Route exact path="/" component={StartView} />
+            <Route exact path="/rooms" component={ChatRoomView} />
+            <Route exact path="/room/:name" component={ChatRoomView} />
+            <Route exact path="/new-room" component={AddNewRoom} />
+            {/* <Route exact path="/" component={LogIn} /> */}
+            {/* <Route exact path="/" component={StartView} /> */}
+          </Switch>
+        </Router>
+      </ChattProvider>
   );
 }
 
