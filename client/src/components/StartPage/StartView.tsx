@@ -1,31 +1,37 @@
 import { Input, Button, Row, Col, Divider, Form } from "antd";
 import React, { CSSProperties, Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { addUsername } from "../../socketUtils"; 
 
 interface State {
   username: string
 }
 
-class Welcome extends Component <{}, State> {
+interface Props extends RouteComponentProps<{ _id: string }> {}
 
-  constructor(props:State) {
-    super(props)
-    this.state = {
-      username: ""
-    }
-  }
+class Welcome extends Component <Props, State> {
+
+  state: State = {
+    username: '',
+  };
+
+  // constructor(props:State) {
+  //   super(props)
+  //   this.state = {
+  //     username: ""
+  //   }
+  // }
 
   handleUser = (e:any) =>  {
     this.setState({username:e.target.value})
   }
 
-  addUser = (e:any) => {
-    e.preventDefault();
+  addUser = () => {
 
      // A function that is imported from socketUtils
     addUsername(this.state.username)
     this.setState({username:""})
+    this.props.history.push('/rooms');
   }
 
   render() {
@@ -72,14 +78,12 @@ class Welcome extends Component <{}, State> {
             </Form.Item>
 
             <Form.Item>
-            <Link to='/rooms'>
                 <Button 
-                htmlType="submit" 
-                style={buttonStyle} 
-                onClick={this.addUser}> 
+                  htmlType="submit" 
+                  style={buttonStyle} 
+                  onClick={this.addUser}> 
                   Join
                 </Button>
-                </Link>
             </Form.Item>
           </Form>
           </div>
