@@ -18,17 +18,17 @@ class ReplyMessage extends Component<Props, State> {
     }
   }
 
-  // state: State = {
-  //   msg: ""
-  // }
-
+  // Handle the input onchange
   handleMsgChange = (e:any) => {
     this.setState({msg:e.target.value})
   }
-
+ 
+  // This function sends back the input value to the sever
+  // The input value will also be reset
   sendMsg = (e:any) => {
     e.preventDefault();
 
+     // A function that is imported from socketUtils
     sendMessage(this.state.msg)
     this.setState({msg:""})
   }
