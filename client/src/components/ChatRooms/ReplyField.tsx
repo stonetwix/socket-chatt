@@ -18,9 +18,9 @@ class ReplyMessage extends Component<Props, State> {
     }
   }
 
-  state: State = {
-    msg: ""
-  }
+  // state: State = {
+  //   msg: ""
+  // }
 
   handleMsgChange = (e:any) => {
     this.setState({msg:e.target.value})
@@ -30,6 +30,7 @@ class ReplyMessage extends Component<Props, State> {
     e.preventDefault();
 
     sendMessage(this.state.msg)
+    this.setState({msg:""})
   }
 
   render() {
@@ -39,7 +40,8 @@ class ReplyMessage extends Component<Props, State> {
           rows={2}
           style={textareastyle}
           id="msg"
-          onChange={this.handleMsgChange} >
+          onChange={this.handleMsgChange}
+          value={this.state.msg} >
         </TextArea>
         <Button htmlType="submit" type="primary" style={buttonstyle} onClick={this.sendMsg}>
           Send Message

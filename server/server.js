@@ -35,6 +35,7 @@ io.on('connection', (socket) => {
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
         io.emit('message', formatMessage('USER', msg))
+        console.log(msg)
     });
 
     socket.on('createRoom', (msg) => {
