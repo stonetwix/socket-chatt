@@ -12,6 +12,7 @@ export function sendMessage(msg: any) {
         message: msg
     }
     
+    socket.emit('joinRoom', message) 
     socket.emit('chatMsg', message);
 }
 
