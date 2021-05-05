@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createRoom', (room) => {
-        socket.join(room);
+        socket.join(room.name);
         console.log(room);
         io.emit('roomCreated', room);
     });

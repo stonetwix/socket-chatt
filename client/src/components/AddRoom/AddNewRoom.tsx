@@ -15,11 +15,11 @@ const layout = {
   },
 };
 
-interface Props extends RouteComponentProps<{ _id: string }> {}
+interface Props extends RouteComponentProps<{ name: string }> {}
 
 export interface Room {
     name: string,
-    status: string,
+    isPrivate: boolean,
 }
 
 interface State {
@@ -36,7 +36,12 @@ class AddNewRoom extends Component<Props, State> {
     };
 
     onFinish = (values: any) => {
-        createRoom(values);
+        const room: Room = {
+            name: values.room.name,
+            isPrivate: values.room.status === 'private',
+        } 
+        createRoom(room);
+        this.props.history.push('/room/' + room.name);
     };
 
     onSelectChange = (value: any) => {
