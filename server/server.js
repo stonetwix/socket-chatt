@@ -27,23 +27,17 @@ io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
 
     // Sends a welcome message to the connected user
-    socket.emit('message', formatMessage(bot ,"Welcome to Woffle!"))
+    socket.emit('message', formatMessage(bot, "Skolbänken" ,"Welcome to Woffle!"))
 
     //Sends back message to everyone that a new user has been connected
-    socket.broadcast.emit('message', formatMessage(bot, 'A user has joined the Woffle'))
+    socket.broadcast.emit('message', formatMessage(bot, "Skolbänken" , 'A user has joined the Woffle'))
 
     // Handle the chat messaging from user inputs
     // When get the username and chatmessage:
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
-        messenges.push({
-            name: "Nicklas",
-            message: msg
-        })
-        io.emit('message', formatMessage('USER', msg))
+        io.emit('message', formatMessage(msg.user, msg.room, msg.message))
     });
-
-    socket.emit('messages', messenges)
 
     socket.on('createRoom', (room) => {
         socket.join(room.name);
