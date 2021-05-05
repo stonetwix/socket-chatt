@@ -1,8 +1,9 @@
 import { Component, createContext } from 'react';
 import { socket } from '../socketUtils';
+import { Room } from './AddRoom/AddNewRoom';
 
 interface State {
-    rooms: string[],
+    rooms: Room[],
 }
 
 interface ContextValue extends State {
@@ -21,7 +22,7 @@ class ChattProvider extends Component<{}, State> {
     componentDidMount = () => {
         socket.on('roomCreated', (event) => {
             console.log('Nytt rum: ', event);
-            this.setState({ rooms: [...this.state.rooms, event.room] });
+            this.setState({ rooms: [...this.state.rooms, event] });
         })
     }
 

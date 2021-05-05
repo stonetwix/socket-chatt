@@ -19,7 +19,7 @@ interface Props extends RouteComponentProps<{ _id: string }> {}
 
 export interface Room {
     name: string,
-    status: string,
+    isPrivate: boolean,
 }
 
 interface State {
@@ -36,7 +36,11 @@ class AddNewRoom extends Component<Props, State> {
     };
 
     onFinish = (values: any) => {
-        createRoom(values);
+        const room: Room = {
+            name: values.room.name,
+            isPrivate: values.room.status === 'private',
+        } 
+        createRoom(room);
     };
 
     onSelectChange = (value: any) => {
