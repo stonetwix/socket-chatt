@@ -10,3 +10,8 @@ export function sendMessage(msg: any) {
 export function createRoom(room: any) {
     socket.emit('createRoom', room);
 }
+
+export function addUsername(username: any) {
+    socket.emit('addUser', username)
+
+}
