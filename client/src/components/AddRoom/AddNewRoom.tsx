@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../ChatRooms/SiderMenu';
-import { sendMessage } from '../../socketUtils';
+import { createRoom } from '../../socketUtils';
 
 const { Content } = Layout;
 
@@ -17,6 +17,11 @@ const layout = {
 
 interface Props extends RouteComponentProps<{ _id: string }> {}
 
+export interface Room {
+    name: string,
+    status: string,
+}
+
 interface State {
   isRoomPrivate: boolean;
 }
@@ -30,9 +35,8 @@ class AddNewRoom extends Component<Props, State> {
         isRoomPrivate: false,
     };
 
-    onFinish = async (values: any) => {
-        //await addNewUser(values.user);
-        this.props.history.push('/admin/users');
+    onFinish = (values: any) => {
+        createRoom(values);
     };
 
     onSelectChange = (value: any) => {
@@ -109,15 +113,13 @@ class AddNewRoom extends Component<Props, State> {
 
                             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                    <Link to='/rooms'>
-                                        <Button 
+                                    <Button 
                                         type="primary"
                                         onClick={() => {success()}} 
                                         htmlType="submit" 
-                                        >
+                                    >
                                         Save
-                                        </Button>
-                                    </Link>
+                                    </Button>
                                 </div>
                             </Form.Item>
                         </Form>

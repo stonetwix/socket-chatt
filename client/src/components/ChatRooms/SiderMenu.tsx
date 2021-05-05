@@ -1,12 +1,18 @@
-import { Component, CSSProperties } from 'react';
+import { Component, ContextType, CSSProperties } from 'react';
 import { Layout, Menu, Button } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import { LockFilled, PlusCircleFilled } from '@ant-design/icons';
+import { ChattContext } from '../chatContext';
 
 const { Sider } = Layout;
 class SiderMenu extends Component {
+    context!: ContextType<typeof ChattContext>
+    static contextType = ChattContext;
 
     render () {
+        return (
+        <ChattContext.Consumer>
+            {({ rooms }) => {
         return (
             <Sider
                 breakpoint="lg"
@@ -29,16 +35,14 @@ class SiderMenu extends Component {
                         </Button>
                     </Link>
                     <h3 style={headlineStyle}>Open rooms</h3>
-                    <Menu.Item key="1">
-                        <Link to={'/'}> Room 1</Link>
-                    </Menu.Item>
-                    <Menu.Item key="2">
-                        <Link to={'/'}>Room 2</Link>
-                    </Menu.Item>
-                    <Menu.Item key="3">
-                        <Link to={'/'}>Room 3</Link>
-                    </Menu.Item>
-                    
+
+                    {rooms.map((room: any) => {
+                        return (
+                            <Menu.Item key={room.name}>
+                                <Link to={'/room/' + room.name}> {room.name}</Link>
+                            </Menu.Item>
+                        )
+                    })}
                     <h3 style={headlineStyle}><LockFilled /> &nbsp; Private rooms</h3>
                     <Menu.Item key="4">
                         <Link to={'/'}> Room 1</Link>
@@ -51,8 +55,11 @@ class SiderMenu extends Component {
                     </Menu.Item>
                 </Menu>
             </Sider>
-        )          
-    }
+        )
+    }}
+    </ChattContext.Consumer>
+)
+}    
 }
 
 export default SiderMenu;

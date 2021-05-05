@@ -6,3 +6,6 @@ export function sendMessage(msg: any) {
     socket.emit('chat message', 'hej');
 }
 
+export function createRoom(room: any) {
+    socket.emit('createRoom', room);
+}
