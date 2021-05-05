@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
             name: "Nicklas",
             message: msg
         })
-        io.emit('message', formatMessage(username, msg))
+        io.emit('message', formatMessage('USER', msg))
     });
 
     socket.emit('messages', messenges)
