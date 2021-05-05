@@ -18,11 +18,11 @@ class ChatRoomFeed extends Component {
         <List 
           style={feedlist}
           dataSource={messenges}
-          renderItem={item => (
+          renderItem={(item: any) => (
             <Comment
-              author={item}
+              author={item.user}
               // avatar={item.avatar}
-              content={item}
+              content={item.msg}
               // datetime={item.datetime}
             />
           )}

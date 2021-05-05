@@ -30,10 +30,7 @@ class ReplyMessage extends Component<Props, State> {
  
   // This function sends back the input value to the sever
   // The input value will also be reset
-  sendMsg = (e:any) => {
-
-    e.preventDefault();
-
+  sendMsg = () => {
      // A function that is imported from socketUtils
     sendMessage(this.state.msg)
     this.setState({msg:""})

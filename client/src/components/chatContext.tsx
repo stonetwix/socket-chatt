@@ -15,9 +15,9 @@ export const ChattContext = createContext<ContextValue>({
     messenges: [],
 });
 
-socket.on('messages', (e) => {
-    console.log(e)
-});
+// socket.on('messages', (e) => {
+//     console.log(e)
+// });
 
 class ChattProvider extends Component<{}, State> {
     state: State = {
@@ -31,6 +31,10 @@ class ChattProvider extends Component<{}, State> {
         socket.on('roomCreated', (event) => {
             console.log('Nytt rum: ', event);
             this.setState({ rooms: [...this.state.rooms, event.room] });
+        })
+        socket.on('message', (event) => {
+            console.log('Message: ', event);
+            this.setState({ messenges: [...this.state.messenges, event] });
         })
     }    
 
