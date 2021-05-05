@@ -2,6 +2,10 @@ import { Input, Button, Form } from 'antd';
 import { Component, CSSProperties } from 'react';
 import { sendMessage } from '../../socketUtils';
 
+import { io } from "socket.io-client";
+const endpoint = "http://localhost:3001";
+export const socket = io(endpoint);
+
 const { TextArea } = Input;
 
 interface State {
@@ -9,6 +13,7 @@ interface State {
 }
 
 interface Props {}
+
 class ReplyMessage extends Component<Props, State> {
 
   constructor(props: State) {
@@ -25,14 +30,12 @@ class ReplyMessage extends Component<Props, State> {
  
   // This function sends back the input value to the sever
   // The input value will also be reset
-  sendMsg = (e:any) => {
-    e.preventDefault();
-
+  sendMsg = () => {
      // A function that is imported from socketUtils
     sendMessage(this.state.msg)
     this.setState({msg:""})
   }
-
+  
   render() {
     return (
       <Form style={replystyle}>

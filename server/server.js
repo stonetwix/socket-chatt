@@ -21,6 +21,8 @@ let state = {
     rooms: {},
 }
 
+const messenges = []
+
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
 
@@ -34,12 +36,17 @@ io.on('connection', (socket) => {
     // When get the username and chatmessage:
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
+        messenges.push({
+            name: "Nicklas",
+            message: msg
+        })
         io.emit('message', formatMessage(username, msg))
-        console.log(msg)
     });
 
+    socket.emit('messages', messenges)
+
     socket.on('createRoom', (room) => {
-        socket.join(room);
+        socket.join(room.name);
         console.log(room);
         io.emit('roomCreated', room);
     });
