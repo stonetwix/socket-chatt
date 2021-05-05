@@ -1,18 +1,49 @@
 import { Input, Button, Form } from 'antd';
 import { Component, CSSProperties } from 'react';
+import { sendMessage } from '../../socketUtils';
 
 const { TextArea } = Input;
 
-class ReplyMessage extends Component {
+interface State {
+  msg: string
+}
+
+interface Props {}
+class ReplyMessage extends Component<Props, State> {
+
+  constructor(props: State) {
+    super(props);
+    this.state = {
+      msg:""
+    }
+  }
+
+  // Handle the input onchange
+  handleMsgChange = (e:any) => {
+    this.setState({msg:e.target.value})
+  }
+ 
+  // This function sends back the input value to the sever
+  // The input value will also be reset
+  sendMsg = (e:any) => {
+    e.preventDefault();
+
+     // A function that is imported from socketUtils
+    sendMessage(this.state.msg)
+    this.setState({msg:""})
+  }
 
   render() {
     return (
       <Form style={replystyle}>
         <TextArea 
           rows={2}
-          style={textareastyle} >
+          style={textareastyle}
+          id="msg"
+          onChange={this.handleMsgChange}
+          value={this.state.msg} >
         </TextArea>
-        <Button htmlType="submit" type="primary" style={buttonstyle}>
+        <Button htmlType="submit" type="primary" style={buttonstyle} onClick={this.sendMsg}>
           Send Message
         </Button>
       </Form>
@@ -21,7 +52,6 @@ class ReplyMessage extends Component {
 }
 
 export default ReplyMessage;
-
 
 const textareastyle: CSSProperties = {
   display: "flex",
