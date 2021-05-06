@@ -22,8 +22,8 @@ class SiderMenu extends Component<Props> {
     createMenuItems = (rooms: Room[]) => {
         return rooms.map((room: Room) => {
             return (
-                <Menu.Item key={'/room/' + room.name}>
-                    <Link to={'/room/' + room.name}>{room.name}</Link>
+                <Menu.Item key={'/room/' + room.name} onClick={() => window.location.reload()}>
+                    <Link to={'/room/' + room.name} >{room.name}</Link>
                 </Menu.Item>
             )
         })

@@ -23,6 +23,7 @@ export function updateRoom(room: Room) {
     socket.emit('updateRoom', room);
 }
 
-
-
+export function addUsername(username: any) {
+    socket.emit('addUser', username)
+}
 

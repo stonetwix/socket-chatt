@@ -77,6 +77,11 @@ io.on('connection', (socket) => {
         io.emit('roomCreated', room);
     });
 
+    socket.on('addUser', (username) => {
+        io.emit('message', username)
+            console.log(username)
+    })
+
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
