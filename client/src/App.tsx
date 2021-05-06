@@ -11,6 +11,7 @@ import ChatRoomView from './components/ChatRooms/ChatRoomView';
 import StartView from './components/StartPage/StartView';
 import {socket} from './socketUtils';
 import ChattProvider from './components/chatContext';
+import ChatRoomStart from './components/ChatRooms/ChatRoomStart';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Header />
           <Switch>
             <Route exact path="/" component={StartView} />
-            <Route exact path="/rooms" component={ChatRoomView} />
+            <Route exact path="/rooms" component={ChatRoomStart} />
             <Route exact path="/room/:name" component={ChatRoomView} />
             <Route exact path="/new-room" component={AddNewRoom} />
             {/* <Route exact path="/" component={LogIn} /> */}
