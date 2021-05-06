@@ -14,7 +14,6 @@ interface Messenges {
     msg: string,
     time: string
 }
-
 interface ContextValue extends State {
 
 }
@@ -47,7 +46,7 @@ class ChattProvider extends Component<{}, State> {
             
             // Filters the incoming messenges to the room user choose to chat in
             const roomChat = this.state.messenges.filter((room:any) => {
-                return room.room === 'nalle'
+                return room.room === 'Skolbänken'
             })
 
             // Sets the filterd list to sortMessenges that uses in ChatRoomFeed
