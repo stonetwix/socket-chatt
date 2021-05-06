@@ -69,7 +69,3 @@ class ChattProvider extends Component<{}, State> {
 }
 
 export default ChattProvider;
-
-function updateMessenges() {
-    throw new Error('Function not implemented.');
-}

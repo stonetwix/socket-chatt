@@ -19,7 +19,3 @@ export function createRoom(room: Room) {
     socket.emit('createRoom', room);
     socket.emit('joinRoom', room) 
 }
-
-
-
-
