@@ -22,7 +22,7 @@ class ChatRoomFeed extends Component {
               author={item.user}
               // avatar={item.avatar}
               content={item.msg}
-              // datetime={item.datetime}
+              datetime={item.time}
             />
           )}
         />

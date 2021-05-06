@@ -1,12 +1,36 @@
 const moment = require('moment')
 
+const users = []
+
+// Saves the user to an array
+function saveUser(room, id) {
+
+    const user = {
+        id: id,
+        user: "nicklas",
+        room: room.room,
+    }
+
+    // Pushes the clientinformation to the users variable
+    users.push(user)
+
+    return user
+}
+
 // Format the message before it sends back to the frontend
-function formatMessage(user, msg) {
+function formatMessage(user, room, msg) {
     return {
         user,
+        room,
         msg,
-        time:  moment().format('h:mm')
+        time:  moment().format('h:mm'),
     }
 }
 
-module.exports = formatMessage
+// Verify the user
+function getUser(id) {
+    console.log(users)
+    return users.find(user => user.id === id);
+}
+
+module.exports = { formatMessage, getUser, saveUser }
