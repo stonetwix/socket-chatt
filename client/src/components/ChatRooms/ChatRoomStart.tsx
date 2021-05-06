@@ -7,18 +7,19 @@ import JoinChatRoom from './JoinChatRoom';
 
 const { Content } = Layout;
 
-class ChatRoomView extends Component {
+class ChatRoomStart extends Component {
     render() {
         return(
             <Layout style={{ background: '#fff' }}>
                 <SiderMenu />
-                <Content style={{ margin: '8rem', background: '#fff' }}>
+                <JoinChatRoom />
+                {/* <Content style={{ margin: '8rem', background: '#fff' }}>
                     <ChatRoomFeed /> 
                     <ReplyMessage />
-                </Content>
+                </Content> */}
             </Layout>
         )
     }
 }
 
-export default ChatRoomView;
+export default ChatRoomStart;
