@@ -3,13 +3,12 @@ const moment = require('moment')
 const users = []
 
 // Saves the user to an array
-function saveUser(msg, id) {
+function saveUser(room, id) {
 
     const user = {
         id: id,
-        user: msg.user,
-        room: msg.room,
-        msg: msg.message
+        user: "nicklas",
+        room: room.room,
     }
 
     // Pushes the clientinformation to the users variable

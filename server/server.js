@@ -27,10 +27,10 @@ const rooms = []
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
 
-    socket.on('joinRoom', (msg) => {
+    socket.on('joinRoom', (room) => {
 
         // Sets the users information to handleMessages from the client
-        const user = saveUser(msg, socket.id)
+        const user = saveUser(room, socket.id)
 
         // Pushes the room and user to the room array
         rooms.push({
@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
         socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Woffle!`))
 
         //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has left Woffle!`))    
+        socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has joined Woffle!`))    
     })
 
     // Handle the chat messaging from user inputs

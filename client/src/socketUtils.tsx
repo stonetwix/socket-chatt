@@ -12,12 +12,12 @@ export function sendMessage(msg: any) {
         message: msg
     }
     
-    socket.emit('joinRoom', message) 
     socket.emit('chatMsg', message);
 }
 
 export function createRoom(room: Room) {
     socket.emit('createRoom', room);
+    socket.emit('joinRoom', room) 
 }
 
 
