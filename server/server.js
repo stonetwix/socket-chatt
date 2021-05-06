@@ -15,7 +15,7 @@ const io = new Server(server, {
     }
   })
 
-const bot = 'Woffle bot';
+const bot = 'Waffle bot';
 
 let state = {
     rooms: {},
@@ -27,10 +27,10 @@ io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
 
     // Sends a welcome message to the connected user
-    socket.emit('message', formatMessage(bot ,"Welcome to Woffle!"))
+    socket.emit('message', formatMessage(bot ,"Welcome to Waffle!"))
 
     //Sends back message to everyone that a new user has been connected
-    socket.broadcast.emit('message', formatMessage(bot, 'A user has joined the Woffle'))
+    socket.broadcast.emit('message', formatMessage(bot, 'A user has joined the Waffle'))
 
     // Handle the chat messaging from user inputs
     // When get the username and chatmessage:
@@ -58,5 +58,14 @@ io.on('connection', (socket) => {
     })
 });
 
+function getExistingRooms() {
+    const sockets = Object.values(io.sockets.sockets);
+    let rooms = [];
+    for (const socket of sockets) {
+        const existingRooms = Object.keys(socket.rooms).filter(room => room ===socket.id);
+        rooms.push(...existingRooms);
+    }
+    return [...new Set(rooms)];
+}
 
 server.listen(port, () => console.log(`Server is running on port http://localhost:${port}`));
