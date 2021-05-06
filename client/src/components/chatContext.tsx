@@ -34,6 +34,12 @@ class ChattProvider extends Component<{}, State> {
             this.setState({ messages: [...this.state.messages, event] });
         })
         
+        // Fetches all the messenges from room
+        socket.on('getAllMessages', (messages) => {
+            console.log('All messages: ', messages);
+            this.setState({ messages: messages });
+        })
+
         socket.on('updateRooms', (event) => {
             console.log('Update rooms: ', event);
             this.setState({ rooms: [...this.state.rooms, event] });

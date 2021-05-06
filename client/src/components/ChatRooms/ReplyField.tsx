@@ -1,10 +1,12 @@
 import { Input, Button, Form } from 'antd';
 import { Component, CSSProperties } from 'react';
 import { sendMessage } from '../../socketUtils';
+import PropTypes from 'prop-types';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import { io } from "socket.io-client";
-const endpoint = "http://localhost:3001";
-export const socket = io(endpoint);
+// import { io } from "socket.io-client";
+// const endpoint = "http://localhost:3001";
+// export const socket = io(endpoint);
 
 const { TextArea } = Input;
 
@@ -12,16 +14,26 @@ interface State {
   msg: string
 }
 
-interface Props {}
+interface Props extends RouteComponentProps {
+  location: any
+}
 
 class ReplyMessage extends Component<Props, State> {
 
-  constructor(props: State) {
-    super(props);
-    this.state = {
-      msg:""
-    }
+  static propTypes = {
+    location: PropTypes.object.isRequired
   }
+
+  state: State = {
+    msg: '',
+};
+
+  // constructor(props: State) {
+  //   super(props);
+  //   this.state = {
+  //     msg:""
+  //   }
+  // }
 
   // Handle the input onchange
   handleMsgChange = (e:any) => {
@@ -31,8 +43,10 @@ class ReplyMessage extends Component<Props, State> {
   // This function sends back the input value to the sever
   // The input value will also be reset
   sendMsg = () => {
+    const { location } = this.props;
+    const roomName = location.pathname.split('/').slice(-1).pop();
      // A function that is imported from socketUtils
-    sendMessage(this.state.msg)
+    sendMessage('Moa', roomName, this.state.msg)
     this.setState({msg:""})
   }
   
@@ -54,7 +68,7 @@ class ReplyMessage extends Component<Props, State> {
   }
 }
 
-export default ReplyMessage;
+export default withRouter(ReplyMessage);
 
 const textareastyle: CSSProperties = {
   display: "flex",

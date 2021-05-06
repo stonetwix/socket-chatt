@@ -24,12 +24,13 @@ let state = {
 // room can be used in filter the user on a server
 const rooms = [];
 const messages = {};
+const username = 'Moa';
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
     socket.emit('updateRooms', rooms);
 
-    socket.on('joinRoom', (room) => {
+    socket.on('joinRoom', (roomName) => {
 
         // // Sets the users information to handleMessages from the client
         // const user = saveUser(room, socket.id)
@@ -39,15 +40,17 @@ io.on('connection', (socket) => {
         //     room: user.room
         // })
 
-        // // Joins the room that the user clicked on
-        //socket.join(room);   
+        // Joins the room that the user clicked on
+        socket.join(roomName);   
 
         // // Sends a welcome message to the connected user
-         //socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Waffle!`))
+        //const message = formatMessage(bot, room.name,`Hi ${username} Welcome to Waffle!`);
+        io.emit('getAllMessages', messages[roomName] || []); 
 
         // //Sends a message to everyone that a new user has been connected to the room
-        //socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has joined Waffle!`))
+        socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined Waffle!`))
     })
+
     socket.on('getRooms', () => {
         console.log('Get rooms: ', rooms)
         socket.emit('setRooms', rooms);
@@ -61,15 +64,13 @@ io.on('connection', (socket) => {
 
         // If the user is true, send the chat message to specific room
         io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
-        if(user) {
-        }
-        console.log(msg.room);
+        console.log(msg);
         messages[msg.room].push(formatMessage(msg.user, msg.room, msg.message));
         console.log('chat', messages);
     });
 
     socket.on('createRoom', (room) => {
-        socket.join(room.name);
+        //socket.join(room.name);
         console.log(room);
         rooms.push(room);
         messages[room.name] = [];
