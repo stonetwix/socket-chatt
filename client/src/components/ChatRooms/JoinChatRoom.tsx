@@ -8,20 +8,16 @@ class JoinChatRoom extends Component {
     return (
       <Row style={containerStyle}>
         <Col span={24} style={columnStyle}>
-          <h1
-            style={{
-              fontWeight: "bold",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+            <div style={center}>
+
+          <h1 style={{fontWeight: "bold"}}>
             Start Waffle!
           </h1>
           <p>
             {" "}
             Join an existing room or create a new one to start waffling.
           </p>
+            </div>
 
         </Col>
       </Row>
@@ -33,12 +29,18 @@ export default JoinChatRoom;
 
 const containerStyle: CSSProperties = {
   width: "60%",
-  margin: "auto",
   display: "flex",
+  margin: "auto",
   justifyContent: "center",
+};
+const center: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center"
 };
 
 const columnStyle: CSSProperties = {
-  marginTop: "14rem",
+  marginTop: "4rem",
 };
 
