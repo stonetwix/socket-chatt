@@ -22,48 +22,57 @@ let state = {
 }
 
 // room can be used in filter the user on a server
-const rooms = []
+const rooms = [];
+const messages = {};
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
+    socket.emit('updateRooms', rooms);
 
     socket.on('joinRoom', (room) => {
 
-        // Sets the users information to handleMessages from the client
-        const user = saveUser(room, socket.id)
+        // // Sets the users information to handleMessages from the client
+        // const user = saveUser(room, socket.id)
 
-        // Pushes the room and user to the room array
-        rooms.push({
-            room: user.room,
-            user: user.user
-        })
+        // // Pushes the room and user to the room array
+        // rooms.push({
+        //     room: user.room
+        // })
 
-        // Joins the room that the user clicked on
-        socket.join(user.room);   
+        // // Joins the room that the user clicked on
+        //socket.join(room);   
 
-        // Sends a welcome message to the connected user
-        socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Waffle!`))
+        // // Sends a welcome message to the connected user
+         //socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Waffle!`))
 
-        //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has joined Waffle!`))
-        //io.emit('updateRoom', getExistingRooms())
+        // //Sends a message to everyone that a new user has been connected to the room
+        //socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has joined Waffle!`))
+    })
+    socket.on('getRooms', () => {
+        console.log('Get rooms: ', rooms)
+        socket.emit('setRooms', rooms);
     })
 
     // Handle the chat messaging from user inputs
     // When get the username and chatmessage:
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
-        const user = getUser(socket.id)
+        //const user = getUser(socket.id)
 
         // If the user is true, send the chat message to specific room
+        io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
         if(user) {
-            io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
         }
+        console.log(msg.room);
+        messages[msg.room].push(formatMessage(msg.user, msg.room, msg.message));
+        console.log('chat', messages);
     });
 
     socket.on('createRoom', (room) => {
         socket.join(room.name);
         console.log(room);
+        rooms.push(room);
+        messages[room.name] = [];
         io.emit('roomCreated', room);
     });
 
@@ -75,7 +84,6 @@ io.on('connection', (socket) => {
             io.emit('message', formatMessage(bot, user.room, `${user.user} has left the room`))
         }
     })
-    console.log('available rooms: ', io.sockets.adapter.rooms)
 });
 
 function getExistingRooms() {
@@ -85,6 +93,7 @@ function getExistingRooms() {
         const existingRooms = Object.keys(socket.rooms).filter(room => room === socket.id);
         rooms.push(...existingRooms);
     }
+    console.log(rooms);
     return [...new Set(rooms)];
 }
 
