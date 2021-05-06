@@ -33,6 +33,11 @@ class ChattProvider extends Component<{}, State> {
             console.log('Message: ', event);
             this.setState({ messenges: [...this.state.messenges, event] });
         })
+        
+        socket.on('updateRoom', (event) => {
+            console.log('Update rooms: ', event);
+            this.setState({ rooms: [...this.state.rooms, event] });
+        })
     }    
 
     render() {

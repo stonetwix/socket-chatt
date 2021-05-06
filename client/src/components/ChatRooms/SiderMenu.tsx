@@ -32,41 +32,41 @@ class SiderMenu extends Component<Props> {
     render () {
         const { location } = this.props;
         return (
-        <ChattContext.Consumer>
-            {({ rooms }) => {
-        return (
-            <Sider
-                breakpoint="lg"
-                collapsedWidth="0"
-                onBreakpoint={broken => {
-                    console.log(broken);
-                }}
-                onCollapse={(collapsed, type) => {
-                    console.log(collapsed, type);
-                }}
-                style={{
-                    height: '100vh',
-                    background: '#f1edea'
-                }}
-            >
-                <Menu mode="inline" style={{ background: '#f1edea' }} defaultSelectedKeys={[location.pathname]} selectedKeys={[location.pathname]}>
-                    <Link to='/new-room'>
-                        <Button type="primary" icon={<PlusCircleFilled />} style={{ marginTop: '8rem', marginLeft: '1rem' }}>
-                            Create room
-                        </Button>
-                    </Link>
-                    <h3 style={headlineStyle}>Open rooms</h3>
-                    {this.createMenuItems(rooms.filter(room => !room.isPrivate))}
+            <ChattContext.Consumer>
+                {({ rooms }) => {
+                    return (
+                        <Sider
+                            breakpoint="lg"
+                            collapsedWidth="0"
+                            onBreakpoint={broken => {
+                                console.log(broken);
+                            }}
+                            onCollapse={(collapsed, type) => {
+                                console.log(collapsed, type);
+                            }}
+                            style={{
+                                height: '100vh',
+                                background: '#f1edea'
+                            }}
+                        >
+                            <Menu mode="inline" style={{ background: '#f1edea' }} defaultSelectedKeys={[location.pathname]} selectedKeys={[location.pathname]}>
+                                <Link to='/new-room'>
+                                    <Button type="primary" icon={<PlusCircleFilled />} style={{ marginTop: '8rem', marginLeft: '1rem' }}>
+                                        Create room
+                                    </Button>
+                                </Link>
+                                <h3 style={headlineStyle}>Open rooms</h3>
+                                {this.createMenuItems(rooms.filter(room => !room.isPrivate))}
 
-                    <h3 style={headlineStyle}><LockFilled /> &nbsp; Private rooms</h3>
-                    {this.createMenuItems(rooms.filter(room => room.isPrivate))}
-                </Menu>
-            </Sider>
+                                <h3 style={headlineStyle}><LockFilled /> &nbsp; Private rooms</h3>
+                                {this.createMenuItems(rooms.filter(room => room.isPrivate))}
+                            </Menu>
+                        </Sider>
+                    )
+                }}
+            </ChattContext.Consumer>
         )
-    }}
-    </ChattContext.Consumer>
-)
-}    
+    }    
 }
 
 export default withRouter(SiderMenu);

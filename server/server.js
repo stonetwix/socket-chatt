@@ -42,17 +42,17 @@ io.on('connection', (socket) => {
         socket.join(user.room);   
 
         // Sends a welcome message to the connected user
-        socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Woffle!`))
+        socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Waffle!`))
 
         //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has joined Woffle!`))    
+        socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has joined Waffle!`))
+        //io.emit('updateRoom', getExistingRooms())
     })
 
     // Handle the chat messaging from user inputs
     // When get the username and chatmessage:
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
-
         const user = getUser(socket.id)
 
         // If the user is true, send the chat message to specific room
@@ -71,18 +71,18 @@ io.on('connection', (socket) => {
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
         const user = getUser(socket.id)
-
-        if(user) {
+        if (user) {
             io.emit('message', formatMessage(bot, user.room, `${user.user} has left the room`))
         }
     })
+    console.log('available rooms: ', io.sockets.adapter.rooms)
 });
 
 function getExistingRooms() {
     const sockets = Object.values(io.sockets.sockets);
     let rooms = [];
     for (const socket of sockets) {
-        const existingRooms = Object.keys(socket.rooms).filter(room => room ===socket.id);
+        const existingRooms = Object.keys(socket.rooms).filter(room => room === socket.id);
         rooms.push(...existingRooms);
     }
     return [...new Set(rooms)];
