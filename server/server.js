@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http')
 const { Server } = require("socket.io");
 
-const { formatMessage, getUser, saveUser, sendMessages } = require('./middlewares/handleMessages')
+const { formatMessage, getUser, saveUser, sendMessages, getRoom } = require('./middlewares/handleMessages')
 
 const app = express();
 const port = 3001;
@@ -27,11 +27,41 @@ const rooms = []
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
 
+    const testRoom = [{
+        room: 'secure',
+        secure: true,
+        password: 'secure'
+    }]
+
     socket.on('joinRoom', (room) => {
+
+        const secure = 'secure'
+
+        // Hämtar rummet, men behövs inte sen
+        function getRoom(secure) {
+            return testRoom.find(room => room.room === secure)
+        }       
+
+        // Sätter värdet från funktionen ovan
+        const test = getRoom(secure)
+
+        // Om rummet = secure, göt detta
+        if (test.secure === true) {
+            console.log('Låst rum')     
+            if(test.password === 'felkod') {
+                console.log('Gå vidare')
+            } else {
+                console.log('Fel lösenord')
+                return
+            }
+        } else {
+            //
+            console.log('Öppet rum')
+        }
 
         // Sets the users information to handleMessages from the client
         const user = saveUser(room, socket.id)
-        console.log(room)
+     
 
         // Pushes the room and user to the room array
         rooms.push({
