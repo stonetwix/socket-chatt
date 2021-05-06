@@ -11,12 +11,12 @@ class ChatRoomFeed extends Component {
     return (
       <ChattContext.Consumer>
 
-        {({ messenges }) => {
+        {({ sortMessenges }) => {
           return(
       <div>
         <List 
           style={feedlist}
-          dataSource={messenges}
+          dataSource={sortMessenges}
           renderItem={(item: any) => (
             <Comment
               author={item.user}

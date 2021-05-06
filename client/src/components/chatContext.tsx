@@ -4,7 +4,15 @@ import { Room } from './AddRoom/AddNewRoom';
 
 interface State {
     rooms: Room[],
-    messenges: string[],
+    messenges: Messenges[],
+    sortMessenges:Messenges[]
+}
+
+interface Messenges {
+    user: string,
+    room: string,
+    msg: string,
+    time: string
 }
 
 interface ContextValue extends State {
@@ -14,24 +22,36 @@ interface ContextValue extends State {
 export const ChattContext = createContext<ContextValue>({
     rooms: [],
     messenges: [],
+    sortMessenges:[]
 });
+
 class ChattProvider extends Component<{}, State> {
     state: State = {
         rooms: [],
-        messenges: []
+        messenges:[],
+        sortMessenges:[]
     }
  
     componentDidMount = () => {
         // Fetches the rooms from server
         socket.on('roomCreated', (event) => {
             console.log('Nytt rum: ', event);
+            
             this.setState({ rooms: [...this.state.rooms, event] });
         })
 
         // Fetches the messenges from room
         socket.on('message', (event) => {
-            console.log('Message: ', event);
+        
             this.setState({ messenges: [...this.state.messenges, event] });
+            
+            // Filters the incoming messenges to the room user choose to chat in
+            const roomChat = this.state.messenges.filter((room:any) => {
+                return room.room === 'nalle'
+            })
+
+            // Sets the filterd list to sortMessenges that uses in ChatRoomFeed
+            this.setState({ sortMessenges: roomChat });
         })
     }    
 
@@ -40,7 +60,8 @@ class ChattProvider extends Component<{}, State> {
         return (
             <ChattContext.Provider value={{
                 rooms: this.state.rooms,
-                messenges: this.state.messenges
+                messenges: this.state.messenges,
+                sortMessenges: this.state.sortMessenges
             }}>
                                 {this.props.children}
             </ChattContext.Provider>
@@ -49,3 +70,7 @@ class ChattProvider extends Component<{}, State> {
 }
 
 export default ChattProvider;
+
+function updateMessenges() {
+    throw new Error('Function not implemented.');
+}
