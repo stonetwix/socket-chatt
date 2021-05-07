@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http')
 const { Server } = require("socket.io");
+const bcrypt = require('bcrypt');
 
 const { formatMessage, getUser, saveUser } = require('./middlewares/handleMessages')
 
@@ -67,8 +68,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createRoom', (room) => {
-        //socket.join(room.name);
         console.log(room);
+        room.password = bcrypt.hash(room.password, 10);
         rooms.push(room);
         messages[room.name] = [];
         io.emit('roomCreated', room);

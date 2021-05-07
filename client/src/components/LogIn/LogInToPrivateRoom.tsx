@@ -37,7 +37,7 @@ class LogIn extends Component {
                     <Row>
                         <Col span={24}>
                         <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>
-                            LOG IN
+                            LOG IN TO PRIVATE ROOM
                         </h1>
                         <Route render={({ history }) => (
                             <Form

@@ -55,11 +55,6 @@ class ChattProvider extends Component<{}, State> {
 
         socket.emit('getRooms', {})
 
-        socket.on('addUser', (username) => {
-            console.log('Username: ', username);
-            this.setState({ username: username });
-        })
-
         // Fetches the usernames
         socket.on('addUser', (username) => {
             console.log('Username: ', username);

@@ -17,7 +17,7 @@ export function sendMessage(roomName: string, msg: any) {
 
 export function createRoom(room: Room) {
     socket.emit('createRoom', room);
-    socket.emit('joinRoom', room.name) 
+    socket.emit('joinRoom', room.name)  
 }
 
 export function joinRoom(room: Room) {

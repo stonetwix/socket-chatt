@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
-import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../ChatRooms/SiderMenu';
 import { createRoom } from '../../socketUtils';
 
@@ -20,10 +20,12 @@ interface Props extends RouteComponentProps<{ name: string }> {}
 export interface Room {
     name: string,
     isPrivate: boolean,
+    password?: string,
 }
 
 interface State {
   isRoomPrivate: boolean;
+  password?: string;
 }
 
 const success = () => {
@@ -33,12 +35,14 @@ const success = () => {
 class AddNewRoom extends Component<Props, State> {
     state: State = {
         isRoomPrivate: false,
+        password: '',
     };
 
     onFinish = (values: any) => {
         const room: Room = {
             name: values.room.name,
             isPrivate: values.room.status === 'private',
+            password: values.room.password,
         } 
         createRoom(room);
         this.props.history.push('/room/' + room.name);
@@ -53,7 +57,7 @@ class AddNewRoom extends Component<Props, State> {
             <>
                 <Form.Item
                     label="Password"
-                    name={["password"]}
+                    name={["room", "password"]}
                     rules={[
                     {
                         required: true,
@@ -67,7 +71,7 @@ class AddNewRoom extends Component<Props, State> {
                 <Form.Item
                     name="confirm"
                     label="Confirm Password"
-                    dependencies={['password']}
+                    dependencies={['room', 'password']}
                     hasFeedback
                     rules={[
                         {
@@ -76,7 +80,7 @@ class AddNewRoom extends Component<Props, State> {
                         },
                         ({ getFieldValue }) => ({
                         validator(_, value) {
-                            if (!value || getFieldValue('password') === value) {
+                            if (!value || getFieldValue(['room', 'password']) === value) {
                             return Promise.resolve();
                             }
                             return Promise.reject(new Error('The two passwords that you entered do not match!'));

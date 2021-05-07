@@ -24,7 +24,7 @@ function App() {
             <Route exact path="/rooms" component={ChatRoomStart} />
             <Route exact path="/room/:name" component={ChatRoomView} />
             <Route exact path="/new-room" component={AddNewRoom} />
-            {/* <Route exact path="/" component={LogIn} /> */}
+            <Route exact path="/login" component={LogIn} />
             {/* <Route exact path="/" component={StartView} /> */}
           </Switch>
         </Router>
