@@ -1,13 +1,13 @@
 import { Input, Button, Row, Col, Divider, Form } from "antd";
 import React, { CSSProperties, Component } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { addUsername } from "../../socketUtils"; 
 
 interface State {
   username: string
 }
 
-interface Props extends RouteComponentProps<{ _id: string }> {}
+interface Props extends RouteComponentProps {}
 
 class Welcome extends Component <Props, State> {
 
@@ -15,19 +15,12 @@ class Welcome extends Component <Props, State> {
     username: '',
   };
 
-  // constructor(props:State) {
-  //   super(props)
-  //   this.state = {
-  //     username: ""
-  //   }
-  // }
-
   handleUser = (e:any) =>  {
     this.setState({username:e.target.value})
   }
 
   addUser = () => {
-    addUsername(this.state.username)
+    addUsername(this.state.username);
     this.setState({username:""})
     this.props.history.push('/rooms');
   }
@@ -80,7 +73,7 @@ class Welcome extends Component <Props, State> {
                   htmlType="submit" 
                   style={buttonStyle} 
                   onClick={this.addUser}> 
-                  Join
+                    Join
                 </Button>
             </Form.Item>
           </Form>

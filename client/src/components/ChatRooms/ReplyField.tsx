@@ -1,10 +1,9 @@
 import { Input, Button, Form } from 'antd';
-import { Component, CSSProperties } from 'react';
+import { Component, ContextType, CSSProperties } from 'react';
 import { sendMessage } from '../../socketUtils';
-
-import { io } from "socket.io-client";
-const endpoint = "http://localhost:3001";
-export const socket = io(endpoint);
+import PropTypes from 'prop-types';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { ChattContext } from '../chatContext';
 
 const { TextArea } = Input;
 
@@ -12,16 +11,21 @@ interface State {
   msg: string
 }
 
-interface Props {}
+interface Props extends RouteComponentProps {
+  location: any
+}
 
 class ReplyMessage extends Component<Props, State> {
+  context!: ContextType<typeof ChattContext>
+  static contextType = ChattContext;
 
-  constructor(props: State) {
-    super(props);
-    this.state = {
-      msg:""
-    }
+  static propTypes = {
+    location: PropTypes.object.isRequired
   }
+
+  state: State = {
+    msg: '',
+  };
 
   // Handle the input onchange
   handleMsgChange = (e:any) => {
@@ -30,31 +34,39 @@ class ReplyMessage extends Component<Props, State> {
  
   // This function sends back the input value to the sever
   // The input value will also be reset
-  sendMsg = () => {
+  sendMsg = (username: string) => {
+    const { location } = this.props;
+    const roomName = location.pathname.split('/').slice(-1).pop();
      // A function that is imported from socketUtils
-    sendMessage(this.state.msg)
+    sendMessage(username, roomName, this.state.msg)
     this.setState({msg:""})
   }
   
   render() {
     return (
-      <Form style={replystyle}>
-        <TextArea 
-          rows={2}
-          style={textareastyle}
-          id="msg"
-          onChange={this.handleMsgChange}
-          value={this.state.msg} >
-        </TextArea>
-        <Button htmlType="submit" type="primary" style={buttonstyle} onClick={this.sendMsg}>
-          Send Message
-        </Button>
-      </Form>
-    )
-  }
+      <ChattContext.Consumer>
+        {({ username }) => {
+          return(
+              <Form style={replystyle}>
+                <TextArea 
+                  rows={2}
+                  style={textareastyle}
+                  id="msg"
+                  onChange={this.handleMsgChange}
+                  value={this.state.msg} >
+                </TextArea>
+                <Button htmlType="submit" type="primary" style={buttonstyle} onClick={() => this.sendMsg(username)}>
+                  Send Message
+                </Button>
+              </Form>
+            )
+  }}
+    </ChattContext.Consumer>
+  ) 
+}
 }
 
-export default ReplyMessage;
+export default withRouter(ReplyMessage);
 
 const textareastyle: CSSProperties = {
   display: "flex",
