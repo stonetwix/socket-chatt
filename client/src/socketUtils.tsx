@@ -19,6 +19,10 @@ export function createRoom(room: Room) {
     socket.emit('joinRoom', room.name) 
 }
 
+export function joinRoom(room: Room) {
+    socket.emit('joinRoom', room.name)   
+}
+
 export function updateRoom(room: Room) {
     socket.emit('updateRoom', room);
 }

@@ -17,14 +17,11 @@ const io = new Server(server, {
 
 const bot = 'Waffle bot';
 
-let state = {
-    rooms: {},
-}
 
 // room can be used in filter the user on a server
 const rooms = [];
 const messages = {};
-const username = 'Moa';
+const username = '';
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
@@ -41,11 +38,11 @@ io.on('connection', (socket) => {
         // })
 
         // Joins the room that the user clicked on
-        socket.join(roomName);   
+        socket.join(roomName);
 
         // // Sends a welcome message to the connected user
         //const message = formatMessage(bot, room.name,`Hi ${username} Welcome to Waffle!`);
-        io.emit('getAllMessages', messages[roomName] || []); 
+        socket.emit('getAllMessages', messages[roomName] || []); 
 
         // //Sends a message to everyone that a new user has been connected to the room
         socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined Waffle!`))
