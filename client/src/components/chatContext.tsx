@@ -59,6 +59,12 @@ class ChattProvider extends Component<{}, State> {
             console.log('Username: ', username);
             this.setState({ username: username });
         })
+
+        // Fetches the usernames
+        socket.on('addUser', (username) => {
+            console.log('Username: ', username);
+            this.setState({ username: username });
+        })
     }    
 
     render() {       

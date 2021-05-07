@@ -1,6 +1,6 @@
 import { Input, Button, Row, Col, Divider, Form } from "antd";
 import React, { CSSProperties, Component } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { addUsername } from "../../socketUtils"; 
 
 interface State {
