@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     socket.on('joinRoom', (roomName, username) => {
 
         // // Sets the users information to handleMessages from the client
-        // const user = saveUser(room, socket.id)
+        // const user = saveUser(roomName, username, socket.id)
 
         // // Pushes the room and user to the room array
         // rooms.push({
@@ -48,6 +48,10 @@ io.on('connection', (socket) => {
         socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined ${roomName}!`))
     })
 
+    socket.on('createAutoConnect', (roomName, user) => {
+        socket.join(roomName)
+    })
+
     socket.on('getRooms', () => {
         console.log('Get rooms: ', rooms)
         socket.emit('setRooms', rooms);
@@ -58,8 +62,6 @@ io.on('connection', (socket) => {
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
         //const user = getUser(socket.id)
-        console.log(messages)
-
         // If the user is true, send the chat message to specific room
         io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
         console.log(msg);
@@ -96,7 +98,6 @@ function getExistingRooms() {
         const existingRooms = Object.keys(socket.rooms).filter(room => room === socket.id);
         rooms.push(...existingRooms);
     }
-    console.log(rooms);
     return [...new Set(rooms)];
 }
 

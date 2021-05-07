@@ -3,8 +3,8 @@ const moment = require('moment')
 const users = []
 
 // Saves the user to an array
-function saveUser(room, id, username) {
-
+function saveUser(room, username, id) {
+console.log({saveUser: username})
     const user = {
         id: id,
         user: username,
@@ -29,7 +29,6 @@ function formatMessage(user, room, msg) {
 
 // Verify the user
 function getUser(id) {
-    console.log(users)
     return users.find(user => user.id === id);
 }
 

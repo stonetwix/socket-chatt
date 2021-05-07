@@ -19,11 +19,12 @@ export function sendMessage(roomName: string, msg: any) {
 
 export function createRoom(room: Room) {
     socket.emit('createRoom', room);
-    // socket.emit('joinRoom', room.name) 
+    socket.emit('createAutoConnect', room.name, users) 
+    userRoom = room
 }
 
 export function joinRoom(room: Room) {
-    socket.emit('joinRoom', room.name)   
+    socket.emit('joinRoom', room.name, users)   
     userRoom = room
 }
 
@@ -33,6 +34,7 @@ export function updateRoom(room: Room) {
 
 export function addUsername(username: any) {
     socket.emit('addUser', username)
+    console.log(username)
     users = username
 }
 
