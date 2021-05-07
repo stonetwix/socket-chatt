@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http')
 const { Server } = require("socket.io");
 
-const { formatMessage, getUser, saveUser } = require('./middlewares/handleMessages')
+const { formatMessage, getUser, saveUser, allMessages } = require('./middlewares/handleMessages')
 
 const app = express();
 const port = 3001;
@@ -37,12 +37,13 @@ io.on('connection', (socket) => {
         //     room: user.room
         // })
 
+        console.log({joinRoom: roomName, username})
         // Joins the room that the user clicked on
         socket.join(roomName);
 
         // // Sends a welcome message to the connected user
         //const message = formatMessage(bot, room.name,`Hi ${username} Welcome to Waffle!`);
-        socket.emit('getAllMessages', messages[roomName] || []); 
+        
 
         // //Sends a message to everyone that a new user has been connected to the room
         socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined ${roomName}!`))
@@ -65,7 +66,7 @@ io.on('connection', (socket) => {
         // If the user is true, send the chat message to specific room
         io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
         console.log(msg);
-        messages[msg.room].push(formatMessage(msg.user, msg.room, msg.message));
+        // messages[msg.room].push(formatMessage(msg.user, msg.room, msg.message));
         console.log('chat', messages);
     });
 
@@ -92,6 +93,7 @@ io.on('connection', (socket) => {
 });
 
 function getExistingRooms() {
+    socket.emit('getAllMessages', allMessages()); 
     const sockets = Object.values(io.sockets.sockets);
     let rooms = [];
     for (const socket of sockets) {
