@@ -20,14 +20,14 @@ const bot = 'Waffle bot';
 
 // room can be used in filter the user on a server
 const rooms = [];
-const messages = {};
+const messages = [];
 const username = '';
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
     socket.emit('updateRooms', rooms);
 
-    socket.on('joinRoom', (roomName) => {
+    socket.on('joinRoom', (roomName, username) => {
 
         // // Sets the users information to handleMessages from the client
         // const user = saveUser(room, socket.id)
@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
         socket.emit('getAllMessages', messages[roomName] || []); 
 
         // //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined Waffle!`))
+        socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined ${roomName}!`))
     })
 
     socket.on('getRooms', () => {
@@ -58,6 +58,7 @@ io.on('connection', (socket) => {
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
         //const user = getUser(socket.id)
+        console.log(messages)
 
         // If the user is true, send the chat message to specific room
         io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
@@ -68,16 +69,15 @@ io.on('connection', (socket) => {
 
     socket.on('createRoom', (room) => {
         //socket.join(room.name);
-        console.log(room);
         rooms.push(room);
         messages[room.name] = [];
         io.emit('roomCreated', room);
     });
 
-    socket.on('addUser', (username) => {
-        io.emit('message', username)
-            console.log(username)
-    })
+    // socket.on('addUser', (username) => {
+    //     io.emit('message', username)
+    //         console.log(username)
+    // })
 
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message

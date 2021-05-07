@@ -24,6 +24,7 @@ export function createRoom(room: Room) {
 
 export function joinRoom(room: Room) {
     socket.emit('joinRoom', room.name)   
+    userRoom = room
 }
 
 export function updateRoom(room: Room) {
