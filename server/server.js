@@ -27,25 +27,27 @@ const rooms = []
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
 
-    socket.on('joinRoom', (room) => {
+    socket.on('joinRoom', (room, user) => {
+        console.log(room)
+        console.log(user)
 
-        // Sets the users information to handleMessages from the client
-        const user = saveUser(room, socket.id)
+        //Sets the users information to handleMessages from the client
+        const userToSave = saveUser(room, socket.id, user)
 
         // Pushes the room and user to the room array
         rooms.push({
-            room: user.room,
-            user: user.user
+            room: room.name,
+            user: user
         })
 
         // Joins the room that the user clicked on
-        socket.join(user.room);   
+        socket.join(room.name);   
 
         // Sends a welcome message to the connected user
-        socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Woffle!`))
+        socket.emit('message', formatMessage(bot, room.name ,`Hi ${user}! Welcome to Woffle!`))
 
         //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has joined Woffle!`))    
+        socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name , `${user} has joined Woffle!`))    
     })
 
     // Handle the chat messaging from user inputs
@@ -54,6 +56,8 @@ io.on('connection', (socket) => {
     socket.on('chatMsg', (msg) => {
 
         const user = getUser(socket.id)
+        console.log({user: user})
+        console.log({msg: msg})
 
         // If the user is true, send the chat message to specific room
         if(user) {
@@ -63,7 +67,6 @@ io.on('connection', (socket) => {
 
     socket.on('createRoom', (room) => {
         socket.join(room.name);
-        console.log(room);
         io.emit('roomCreated', room);
     });
 

@@ -3,11 +3,11 @@ const moment = require('moment')
 const users = []
 
 // Saves the user to an array
-function saveUser(room, id) {
+function saveUser(room, id, username) {
 
     const user = {
         id: id,
-        user: "nicklas",
+        user: username,
         room: room.room,
     }
 
