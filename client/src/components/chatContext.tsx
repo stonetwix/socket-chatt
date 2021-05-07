@@ -5,6 +5,7 @@ import { Room } from './AddRoom/AddNewRoom';
 interface State {
     rooms: Room[],
     messenges: string[],
+    username: string,
 }
 
 interface ContextValue extends State {
@@ -14,11 +15,13 @@ interface ContextValue extends State {
 export const ChattContext = createContext<ContextValue>({
     rooms: [],
     messenges: [],
+    username: '',
 });
 class ChattProvider extends Component<{}, State> {
     state: State = {
         rooms: [],
-        messenges: []
+        messenges: [],
+        username: '',
     }
  
     componentDidMount = () => {
@@ -33,6 +36,12 @@ class ChattProvider extends Component<{}, State> {
             console.log('Message: ', event);
             this.setState({ messenges: [...this.state.messenges, event] });
         })
+
+        // Fetches the usernames
+        socket.on('addUser', (username) => {
+            console.log('Username: ', username);
+            this.setState({ username: username });
+        })
     }    
 
     render() {
@@ -40,7 +49,8 @@ class ChattProvider extends Component<{}, State> {
         return (
             <ChattContext.Provider value={{
                 rooms: this.state.rooms,
-                messenges: this.state.messenges
+                messenges: this.state.messenges,
+                username: this.state.username,
             }}>
                                 {this.props.children}
             </ChattContext.Provider>

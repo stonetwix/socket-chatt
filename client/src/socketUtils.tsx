@@ -20,6 +20,7 @@ export function createRoom(room: Room) {
     socket.emit('joinRoom', room) 
 }
 
+export function addUsername(username: any) {
+    socket.emit('addUser', username)
 
-
-
+}
