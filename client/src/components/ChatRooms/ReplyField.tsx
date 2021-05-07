@@ -28,6 +28,9 @@ class ReplyMessage extends Component<Props, State> {
     this.setState({msg:e.target.value})
   }
  
+  handleTyping =() => {
+
+  }
   // This function sends back the input value to the sever
   // The input value will also be reset
   sendMsg = () => {
@@ -44,6 +47,7 @@ class ReplyMessage extends Component<Props, State> {
           style={textareastyle}
           id="msg"
           onChange={this.handleMsgChange}
+          onKeyDown={this.handleTyping}
           value={this.state.msg} >
         </TextArea>
         <Button htmlType="submit" type="primary" style={buttonstyle} onClick={this.sendMsg}>

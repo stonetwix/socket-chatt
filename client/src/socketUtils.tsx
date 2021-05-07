@@ -13,6 +13,7 @@ export function sendMessage(msg: any) {
     }
     
     socket.emit('chatMsg', message);
+    socket.emit('typing', message)
 }
 
 export function createRoom(room: Room) {
