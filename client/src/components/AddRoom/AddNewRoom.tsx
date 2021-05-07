@@ -21,6 +21,7 @@ export interface Room {
     name: string,
     isPrivate: boolean,
     password?: string,
+    isAuthenticated?: boolean,
 }
 
 interface State {

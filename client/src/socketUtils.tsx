@@ -3,9 +3,8 @@ import { Room } from "./components/AddRoom/AddNewRoom";
 const endpoint = "http://localhost:3001";
 export const socket = io(endpoint);
 
-let user = '';
 // Sends the chat-value to server
-export function sendMessage(roomName: string, msg: any) {
+export function sendMessage(user: string, roomName: string, msg: any) {
 
     const message = {
         user: user,
@@ -21,15 +20,17 @@ export function createRoom(room: Room) {
 }
 
 export function joinRoom(room: Room) {
-    socket.emit('joinRoom', room.name)   
+    if (room.isPrivate) {
+
+    }
+    socket.emit('joinRoom', room.name)
 }
 
 export function updateRoom(room: Room) {
     socket.emit('updateRoom', room);
 }
 
-export function addUsername(username: any) {
-    socket.emit('addUser', username)
-    user = username;
-}
+// export function addUsername(username: string) {
+//     socket.emit('addUser', username);
+// }
 

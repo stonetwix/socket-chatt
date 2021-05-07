@@ -20,7 +20,7 @@ class ChatRoomFeed extends Component<Props> {
   componentDidMount = () => {
     const { location } = this.props;
     const roomName = location.pathname.split('/').slice(-1).pop();
-    socket.emit('joinRoom', roomName); // byt ut test till url:en för rummet.
+    socket.emit('joinRoom', roomName);
     console.log(location)
   }
 

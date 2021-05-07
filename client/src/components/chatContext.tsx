@@ -9,13 +9,14 @@ interface State {
 }
 
 interface ContextValue extends State {
-
+    setUsername: (username: string) => void;
 }
 
 export const ChattContext = createContext<ContextValue>({
     rooms: [],
     messages: [],
     username: '',
+    setUsername: () => {},
 });
 class ChattProvider extends Component<{}, State> {
     state: State = {
@@ -56,11 +57,15 @@ class ChattProvider extends Component<{}, State> {
         socket.emit('getRooms', {})
 
         // Fetches the usernames
-        socket.on('addUser', (username) => {
-            console.log('Username: ', username);
-            this.setState({ username: username });
-        })
+        // socket.on('addUser', (username) => {
+        //     console.log('Username: ', username);
+        //     this.setState({ username: username });
+        // })
     }    
+
+    setUsername = (username: string) => {
+        this.setState({ username: username });
+    }
 
     render() {       
         return (
@@ -68,6 +73,7 @@ class ChattProvider extends Component<{}, State> {
                 rooms: this.state.rooms,
                 messages: this.state.messages,
                 username: this.state.username,
+                setUsername: this.setUsername,
             }}>
                 {this.props.children}
             </ChattContext.Provider>

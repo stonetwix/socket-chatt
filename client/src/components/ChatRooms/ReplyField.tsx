@@ -34,11 +34,12 @@ class ReplyMessage extends Component<Props, State> {
  
   // This function sends back the input value to the sever
   // The input value will also be reset
-  sendMsg = (username: string) => {
+  sendMsg = () => {
+    const { username } = this.context;
     const { location } = this.props;
     const roomName = location.pathname.split('/').slice(-1).pop();
      // A function that is imported from socketUtils
-    sendMessage(roomName, this.state.msg)
+    sendMessage(username, roomName, this.state.msg)
     this.setState({msg:""})
   }
   
@@ -47,23 +48,23 @@ class ReplyMessage extends Component<Props, State> {
       <ChattContext.Consumer>
         {({ username }) => {
           return(
-              <Form style={replystyle}>
-                <TextArea 
-                  rows={2}
-                  style={textareastyle}
-                  id="msg"
-                  onChange={this.handleMsgChange}
-                  value={this.state.msg} >
-                </TextArea>
-                <Button htmlType="submit" type="primary" style={buttonstyle} onClick={() => this.sendMsg(username)}>
-                  Send Message
-                </Button>
-              </Form>
-            )
-  }}
-    </ChattContext.Consumer>
-  ) 
-}
+            <Form style={replystyle}>
+              <TextArea 
+                rows={2}
+                style={textareastyle}
+                id="msg"
+                onChange={this.handleMsgChange}
+                value={this.state.msg} >
+              </TextArea>
+              <Button htmlType="submit" type="primary" style={buttonstyle} onClick={() => this.sendMsg()}>
+                Send Message
+              </Button>
+            </Form>
+          )
+        }}
+      </ChattContext.Consumer>
+    ) 
+  }
 }
 
 export default withRouter(ReplyMessage);

@@ -67,13 +67,17 @@ io.on('connection', (socket) => {
         console.log('chat', messages);
     });
 
-    socket.on('createRoom', (room) => {
+    socket.on('createRoom', async (room) => {
         console.log(room);
-        room.password = bcrypt.hash(room.password, 10);
+        room.password = await bcrypt.hash(room.password, 10);
         rooms.push(room);
         messages[room.name] = [];
         io.emit('roomCreated', room);
     });
+
+    socket.on('checkPassword', (room) => {
+
+    })
 
     socket.on('addUser', (username) => {
         io.emit('message', username)
