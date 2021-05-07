@@ -4,7 +4,7 @@ import { Room } from './AddRoom/AddNewRoom';
 
 interface State {
     rooms: Room[],
-    messenges: string[],
+    messages: string[],
     username: string,
 }
 
@@ -14,13 +14,13 @@ interface ContextValue extends State {
 
 export const ChattContext = createContext<ContextValue>({
     rooms: [],
-    messenges: [],
+    messages: [],
     username: '',
 });
 class ChattProvider extends Component<{}, State> {
     state: State = {
         rooms: [],
-        messenges: [],
+        messages: [],
         username: '',
     }
  
@@ -34,7 +34,30 @@ class ChattProvider extends Component<{}, State> {
         // Fetches the messenges from room
         socket.on('message', (event) => {
             console.log('Message: ', event);
-            this.setState({ messenges: [...this.state.messenges, event] });
+            this.setState({ messages: [...this.state.messages, event] });
+        })
+        
+        // Fetches all the messenges from room
+        socket.on('getAllMessages', (messages) => {
+            console.log('All messages: ', messages);
+            this.setState({ messages: messages });
+        })
+
+        socket.on('updateRooms', (event) => {
+            console.log('Update rooms: ', event);
+            this.setState({ rooms: [...this.state.rooms, event] });
+        })
+
+        socket.on('setRooms', (rooms) => {
+            console.log('Set rooms: ', rooms);
+            this.setState({ rooms: rooms });
+        })
+
+        socket.emit('getRooms', {})
+
+        socket.on('addUser', (username) => {
+            console.log('Username: ', username);
+            this.setState({ username: username });
         })
 
         // Fetches the usernames
@@ -44,15 +67,14 @@ class ChattProvider extends Component<{}, State> {
         })
     }    
 
-    render() {
-        
+    render() {       
         return (
             <ChattContext.Provider value={{
                 rooms: this.state.rooms,
-                messenges: this.state.messenges,
+                messages: this.state.messages,
                 username: this.state.username,
             }}>
-                                {this.props.children}
+                {this.props.children}
             </ChattContext.Provider>
         );
     }

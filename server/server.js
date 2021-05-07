@@ -15,72 +15,89 @@ const io = new Server(server, {
     }
   })
 
-const bot = 'Woffle bot';
+const bot = 'Waffle bot';
 
-let state = {
-    rooms: {},
-}
 
 // room can be used in filter the user on a server
-const rooms = []
+const rooms = [];
+const messages = {};
+const username = '';
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
+    socket.emit('updateRooms', rooms);
 
-    socket.on('joinRoom', (room) => {
+    socket.on('joinRoom', (roomName) => {
 
-        // Sets the users information to handleMessages from the client
-        const user = saveUser(room, socket.id)
+        // // Sets the users information to handleMessages from the client
+        // const user = saveUser(room, socket.id)
 
-        // Pushes the room and user to the room array
-        rooms.push({
-            room: user.room,
-            user: user.user
-        })
+        // // Pushes the room and user to the room array
+        // rooms.push({
+        //     room: user.room
+        // })
 
         // Joins the room that the user clicked on
-        socket.join(user.room);   
+        socket.join(roomName);
 
-        // Sends a welcome message to the connected user
-        socket.emit('message', formatMessage(bot, user.room ,`Hi ${user.user}! Welcome to Woffle!`))
+        // // Sends a welcome message to the connected user
+        //const message = formatMessage(bot, room.name,`Hi ${username} Welcome to Waffle!`);
+        socket.emit('getAllMessages', messages[roomName] || []); 
 
-        //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(user.room).emit('message', formatMessage(bot, user.room , `${user.user} has joined Woffle!`))    
+        // //Sends a message to everyone that a new user has been connected to the room
+        socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined Waffle!`))
+    })
+
+    socket.on('getRooms', () => {
+        console.log('Get rooms: ', rooms)
+        socket.emit('setRooms', rooms);
     })
 
     // Handle the chat messaging from user inputs
     // When get the username and chatmessage:
     // formatMessage(msg.user, msg.msg)
     socket.on('chatMsg', (msg) => {
-
-        const user = getUser(socket.id)
+        //const user = getUser(socket.id)
 
         // If the user is true, send the chat message to specific room
-        if(user) {
-            io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
-        }
+        io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
+        console.log(msg);
+        messages[msg.room].push(formatMessage(msg.user, msg.room, msg.message));
+        console.log('chat', messages);
     });
 
     socket.on('createRoom', (room) => {
-        socket.join(room.name);
+        //socket.join(room.name);
         console.log(room);
+        rooms.push(room);
+        messages[room.name] = [];
         io.emit('roomCreated', room);
     });
 
     socket.on('addUser', (username) => {
-        io.emit('message', formatMessage(username))
-                console.log(username)
+        io.emit('message', username)
+            console.log(username)
     })
+
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
         const user = getUser(socket.id)
-
-        if(user) {
+        if (user) {
             io.emit('message', formatMessage(bot, user.room, `${user.user} has left the room`))
         }
     })
 });
 
+function getExistingRooms() {
+    const sockets = Object.values(io.sockets.sockets);
+    let rooms = [];
+    for (const socket of sockets) {
+        const existingRooms = Object.keys(socket.rooms).filter(room => room === socket.id);
+        rooms.push(...existingRooms);
+    }
+    console.log(rooms);
+    return [...new Set(rooms)];
+}
 
 server.listen(port, () => console.log(`Server is running on port http://localhost:${port}`));
