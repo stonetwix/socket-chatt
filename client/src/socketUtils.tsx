@@ -3,8 +3,9 @@ import { Room } from "./components/AddRoom/AddNewRoom";
 const endpoint = "http://localhost:3001";
 export const socket = io(endpoint);
 
+let user = '';
 // Sends the chat-value to server
-export function sendMessage(user: string, roomName: string, msg: any) {
+export function sendMessage(roomName: string, msg: any) {
 
     const message = {
         user: user,
@@ -29,5 +30,6 @@ export function updateRoom(room: Room) {
 
 export function addUsername(username: any) {
     socket.emit('addUser', username)
+    user = username;
 }
 

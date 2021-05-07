@@ -38,7 +38,7 @@ class ReplyMessage extends Component<Props, State> {
     const { location } = this.props;
     const roomName = location.pathname.split('/').slice(-1).pop();
      // A function that is imported from socketUtils
-    sendMessage(username, roomName, this.state.msg)
+    sendMessage(roomName, this.state.msg)
     this.setState({msg:""})
   }
   
