@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
         console.log('authenticate: ', room);
         if (!await bcrypt.compare(password, room.password)) {
             socket.emit('authenticatedRoom', { roomName: roomName, error: 'Invalid password' });
-            console.log('inv password');
+            console.log('invalid password');
             return;
         }
         authenticatedSockets[socket.id] = [...authenticatedSockets[socket.id] || [], room.name];

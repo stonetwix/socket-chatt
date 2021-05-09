@@ -1,4 +1,4 @@
-import React, { Component, ContextType } from 'react';
+import { Component, ContextType } from 'react';
 import { Layout } from 'antd';
 import ChatRoomFeed from './ChatRoomFeed';
 import ReplyMessage from './ReplyField';
@@ -14,7 +14,6 @@ const { Content } = Layout;
 interface Props extends RouteComponentProps {
     location: any
 }
-
 class ChatRoomView extends Component<Props> {
     context!: ContextType<typeof ChattContext>
     static contextType = ChattContext;
@@ -31,6 +30,7 @@ class ChatRoomView extends Component<Props> {
         if (!room) {
             return <div></div>
         }
+
         if (room.isPrivate && !room.isAuthenticated) {
             return <LogIn room={room} />
         }

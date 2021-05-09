@@ -20,9 +20,6 @@ export function createRoom(room: Room) {
 }
 
 export function joinRoom(room: Room) {
-    if (room.isPrivate) {
-
-    }
     socket.emit('joinRoom', room);
 }
 

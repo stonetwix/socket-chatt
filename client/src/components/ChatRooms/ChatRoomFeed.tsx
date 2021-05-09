@@ -7,8 +7,13 @@ import { Room } from '../AddRoom/AddNewRoom';
 interface Props {
   room: Room,
 }
+export interface ChatMessage {
+  msg: string,
+  user: string,
+  time: string,
+  roomName: string,
+}
 class ChatRoomFeed extends Component<Props> {
-
   context!: ContextType<typeof ChattContext>
   static contextType = ChattContext;
   
@@ -25,7 +30,7 @@ class ChatRoomFeed extends Component<Props> {
             <div>
               <List 
                 style={feedlist}
-                dataSource={messages}
+                dataSource={messages.filter((msg: any) => msg.room === this.props.room.name)}
                 renderItem={(item: any) => (
                   <Comment
                     author={item.user}
