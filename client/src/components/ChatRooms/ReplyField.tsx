@@ -28,8 +28,16 @@ class ReplyMessage extends Component<Props, State> {
   };
 
   // Handle the input onchange
-  handleMsgChange = (e:any) => {
-    this.setState({msg:e.target.value})
+  handleMsgChange = (e: any) => {
+    this.setState({msg: e.target.value})
+  }
+
+  handleKeyPress = (e: any) => {
+    console.log(e)
+    if (e.charCode === 92) {
+      console.log('You pressed backslash');
+      e.preventDefault();
+    }
   }
  
   // This function sends back the input value to the sever
@@ -54,7 +62,9 @@ class ReplyMessage extends Component<Props, State> {
                 style={textareastyle}
                 id="msg"
                 onChange={this.handleMsgChange}
-                value={this.state.msg} >
+                value={this.state.msg}
+                onKeyPress={this.handleKeyPress}
+              >
               </TextArea>
               <Button htmlType="submit" type="primary" style={buttonstyle} onClick={() => this.sendMsg()}>
                 Send Message
