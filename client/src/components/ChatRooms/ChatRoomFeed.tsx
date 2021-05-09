@@ -27,22 +27,27 @@ class ChatRoomFeed extends Component<Props> {
       <ChattContext.Consumer>
         {({ messages }) => {
           return(
-            <div>
-              <List 
-                style={feedlist}
-                dataSource={messages.filter((msg: any) => msg.room === this.props.room.name)}
-                renderItem={(item: any) => (
-                  <Comment
-                    author={item.user}
-                    // avatar={item.avatar}
-                    content={item.msg}
-                    datetime={item.time}
-                  />
-                )}
-              />
-            </div>
-      )
-    }}
+            <>
+              <div style={activeUsers}>
+                <p style={{padding: '0.8rem 1rem'}}>Active users: </p>
+              </div>
+              <div style={containerStyle}>
+                <List 
+                  style={feedlist}
+                  dataSource={messages.filter((msg: any) => msg.room === this.props.room.name)}
+                  renderItem={(item: any) => (
+                    <Comment
+                      author={item.user}
+                      // avatar={item.avatar}
+                      content={item.msg}
+                      datetime={item.time}
+                    />
+                  )}
+                />
+              </div>
+            </>
+          )
+        }}
       </ChattContext.Consumer>
     ) 
   }
@@ -51,7 +56,19 @@ class ChatRoomFeed extends Component<Props> {
 export default ChatRoomFeed;
 
 const feedlist: CSSProperties = {
-    display: "flex",
-    margin: "auto",
-    width: "100%"
-  };
+  display: "flex",
+  margin: "auto",
+  width: "100%"
+};
+
+const containerStyle: CSSProperties = {
+  maxHeight: '35rem',
+  overflow: 'auto'
+}
+
+const activeUsers: CSSProperties = {
+  height: '3rem',
+  background: '#eee',
+  marginBottom: '2rem',
+  marginTop: '-2rem'
+}
