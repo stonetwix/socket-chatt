@@ -30,14 +30,6 @@ io.on('connection', (socket) => {
 
     socket.on('joinRoom', (roomName) => {
 
-        // // Sets the users information to handleMessages from the client
-        // const user = saveUser(room, socket.id)
-
-        // // Pushes the room and user to the room array
-        // rooms.push({
-        //     room: user.room
-        // })
-
         // Joins the room that the user clicked on
         socket.join(roomName);
 
@@ -69,7 +61,9 @@ io.on('connection', (socket) => {
 
     socket.on('createRoom', async (room) => {
         console.log(room);
-        room.password = await bcrypt.hash(room.password, 10);
+        if (room.isPrivate) {
+            room.password = await bcrypt.hash(room.password, 10);
+        }
         rooms.push(room);
         messages[room.name] = [];
         io.emit('roomCreated', room);

@@ -24,13 +24,11 @@ class SiderMenu extends Component<Props> {
         return rooms.map((room: Room) => {
             return (
                 <Menu.Item key={'/room/' + room.name} onClick={() => joinRoom(room)}>
-                    <Link to={'/room/' + room.name} >{room.name}</Link>
+                    <Link to={'/room/' + room.name}>{room.name}</Link>
                 </Menu.Item>
             )
         })
     }
-
-    //() => window.location.reload() 
 
     render () {
         const { location } = this.props;
