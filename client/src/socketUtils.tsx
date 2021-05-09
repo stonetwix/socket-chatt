@@ -30,6 +30,10 @@ export function updateRoom(room: Room) {
     socket.emit('updateRoom', room);
 }
 
+export function authenticate(room: Room, password: string) {
+    socket.emit('authenticate', room.name, password);
+}
+
 // export function addUsername(username: string) {
 //     socket.emit('addUser', username);
 // }

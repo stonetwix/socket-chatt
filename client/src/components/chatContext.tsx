@@ -56,6 +56,13 @@ class ChattProvider extends Component<{}, State> {
 
         socket.emit('getRooms', {})
 
+        socket.on('authenticatedRoom', (roomName: string) => {
+            const rooms = this.state.rooms.map(
+                (item: Room) => item.name === roomName ? {...item, isAuthenticated: true} : item
+            );
+            this.setState({ rooms: rooms });
+        })
+
         // Fetches the usernames
         // socket.on('addUser', (username) => {
         //     console.log('Username: ', username);

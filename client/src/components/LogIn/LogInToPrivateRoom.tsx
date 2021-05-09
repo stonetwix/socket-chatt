@@ -1,6 +1,8 @@
 import { Form, Input, Button, Row, Col, Layout } from "antd";
 import { CSSProperties, Component } from "react";
 import { Route } from 'react-router-dom';
+import { authenticate } from "../../socketUtils";
+import { Room } from "../AddRoom/AddNewRoom";
 import SiderMenu from '../ChatRooms/SiderMenu';
 
 const { Content } = Layout;
@@ -14,10 +16,14 @@ const layout = {
     },
   };
 
+  interface Props {
+      room: Room;
+  }
+class LogIn extends Component<Props> {
 
-class LogIn extends Component {
-
-  onFinish = async (values: any, history: any) => {
+  onFinish = (values: any, history: any) => {
+    authenticate(this.props.room, values.password);
+    //history.push()
     // const { setUser } = this.context;
     // const user = await login(values.email, values.password);
     // if (user) {

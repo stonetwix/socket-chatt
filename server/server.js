@@ -23,12 +23,18 @@ const bot = 'Waffle bot';
 const rooms = [];
 const messages = {};
 const username = '';
+const authenticatedSockets = {};
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
     socket.emit('updateRooms', rooms);
 
     socket.on('joinRoom', (room) => {
+        const authRooms = authenticatedSockets[socket.id] || [];
+        if (room.isPrivate && !authRooms.find(roomName => room.name === roomName)) {
+            console.log('Not authenticated');
+            return;
+        }
         console.log('Join room: ', room)
 
         // Joins the room that the user clicked on
@@ -72,6 +78,17 @@ io.on('connection', (socket) => {
 
     socket.on('checkPassword', (room) => {
 
+    })
+
+    socket.on('authenticate', async (roomName, password) => {
+        const room = rooms.find(room => room.name === roomName);
+        console.log('authenticate: ', room);
+        if (!await bcrypt.compare(password, room.password)) {
+            return;
+        }
+        authenticatedSockets[socket.id] = [...authenticatedSockets[socket.id] || [], room.name];
+        console.log('auth socket: ', authenticatedSockets);
+        socket.emit('authenticatedRoom', roomName);
     })
 
     socket.on('addUser', (username) => {

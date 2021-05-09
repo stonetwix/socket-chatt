@@ -31,8 +31,8 @@ class ChatRoomView extends Component<Props> {
         if (!room) {
             return <div></div>
         }
-        if (room.isPrivate) {
-            return <LogIn />
+        if (room.isPrivate && !room.isAuthenticated) {
+            return <LogIn room={room} />
         }
         return(
             <Layout style={{ background: '#fff' }}>
