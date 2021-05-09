@@ -2,26 +2,18 @@ import { Component, ContextType, CSSProperties } from 'react';
 import { Comment, List } from 'antd';
 import { ChattContext } from '../chatContext';
 import { socket } from '../../socketUtils';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Room } from '../AddRoom/AddNewRoom';
 
-interface Props extends RouteComponentProps {
-  location: any
+interface Props {
+  room: Room,
 }
 class ChatRoomFeed extends Component<Props> {
 
   context!: ContextType<typeof ChattContext>
   static contextType = ChattContext;
-
-  static propTypes = {
-    location: PropTypes.object.isRequired
-  }
   
   componentDidMount = () => {
-    const { location } = this.props;
-    const roomName = location.pathname.split('/').slice(-1).pop();
-    socket.emit('joinRoom', roomName);
-    console.log(location)
+    socket.emit('joinRoom', this.props.room.name);
   }
 
   render() {
@@ -50,7 +42,7 @@ class ChatRoomFeed extends Component<Props> {
   }
 }
 
-export default withRouter(ChatRoomFeed);
+export default ChatRoomFeed;
 
 const feedlist: CSSProperties = {
     display: "flex",

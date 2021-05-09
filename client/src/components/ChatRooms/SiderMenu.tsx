@@ -23,7 +23,10 @@ class SiderMenu extends Component<Props> {
     createMenuItems = (rooms: Room[]) => {
         return rooms.map((room: Room) => {
             return (
-                <Menu.Item key={'/room/' + room.name} onClick={() => joinRoom(room)}>
+                <Menu.Item
+                    key={'/room/' + room.name}
+                    onClick={() => joinRoom(room)}
+                >
                     <Link to={'/room/' + room.name}>{room.name}</Link>
                 </Menu.Item>
             )
