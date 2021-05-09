@@ -28,17 +28,18 @@ io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
     socket.emit('updateRooms', rooms);
 
-    socket.on('joinRoom', (roomName) => {
+    socket.on('joinRoom', (room) => {
+        console.log('Join room: ', room)
 
         // Joins the room that the user clicked on
-        socket.join(roomName);
+        socket.join(room.name);
 
         // // Sends a welcome message to the connected user
         //const message = formatMessage(bot, room.name,`Hi ${username} Welcome to Waffle!`);
-        socket.emit('getAllMessages', messages[roomName] || []); 
+        socket.emit('getAllMessages', messages[room.name] || []); 
 
         // //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined Waffle!`))
+        socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name, `${username} has joined Waffle!`))
     })
 
     socket.on('getRooms', () => {

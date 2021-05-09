@@ -31,7 +31,7 @@ class ChatRoomView extends Component<Props> {
         if (!room) {
             return <div></div>
         }
-        if (room?.isPrivate) {
+        if (room.isPrivate) {
             return <LogIn />
         }
         return(

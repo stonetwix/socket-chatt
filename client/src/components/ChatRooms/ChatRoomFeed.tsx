@@ -13,7 +13,8 @@ class ChatRoomFeed extends Component<Props> {
   static contextType = ChattContext;
   
   componentDidMount = () => {
-    socket.emit('joinRoom', this.props.room.name);
+    socket.emit('joinRoom', this.props.room);
+    console.log('join room', this.props.room)
   }
 
   render() {

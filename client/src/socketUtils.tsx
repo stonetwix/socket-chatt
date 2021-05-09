@@ -16,14 +16,14 @@ export function sendMessage(user: string, roomName: string, msg: any) {
 
 export function createRoom(room: Room) {
     socket.emit('createRoom', room);
-    socket.emit('joinRoom', room.name);
+    socket.emit('joinRoom', room);
 }
 
 export function joinRoom(room: Room) {
     if (room.isPrivate) {
 
     }
-    socket.emit('joinRoom', room.name);
+    socket.emit('joinRoom', room);
 }
 
 export function updateRoom(room: Room) {
