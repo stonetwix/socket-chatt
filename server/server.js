@@ -46,12 +46,12 @@ io.on('connection', (socket) => {
 
         // //Sends a message to everyone that a new user has been connected to the room
         socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name, `${username} has joined Waffle!`))
-    })
+    });
 
     socket.on('getRooms', () => {
         console.log('Get rooms: ', rooms)
         socket.emit('setRooms', rooms);
-    })
+    });
 
     // Handle the chat messaging from user inputs
     // When get the username and chatmessage:
@@ -76,25 +76,23 @@ io.on('connection', (socket) => {
         io.emit('roomCreated', room);
     });
 
-    socket.on('checkPassword', (room) => {
-
-    })
-
     socket.on('authenticate', async (roomName, password) => {
         const room = rooms.find(room => room.name === roomName);
         console.log('authenticate: ', room);
         if (!await bcrypt.compare(password, room.password)) {
+            socket.emit('authenticatedRoom', { roomName: roomName, error: 'Invalid password' });
+            console.log('inv password');
             return;
         }
         authenticatedSockets[socket.id] = [...authenticatedSockets[socket.id] || [], room.name];
         console.log('auth socket: ', authenticatedSockets);
-        socket.emit('authenticatedRoom', roomName);
-    })
+        socket.emit('authenticatedRoom', {roomName: roomName});
+    });
 
     socket.on('addUser', (username) => {
         io.emit('message', username)
             console.log(username)
-    })
+    });
 
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
@@ -105,16 +103,5 @@ io.on('connection', (socket) => {
         }
     })
 });
-
-function getExistingRooms() {
-    const sockets = Object.values(io.sockets.sockets);
-    let rooms = [];
-    for (const socket of sockets) {
-        const existingRooms = Object.keys(socket.rooms).filter(room => room === socket.id);
-        rooms.push(...existingRooms);
-    }
-    console.log(rooms);
-    return [...new Set(rooms)];
-}
 
 server.listen(port, () => console.log(`Server is running on port http://localhost:${port}`));

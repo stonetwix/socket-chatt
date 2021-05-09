@@ -21,9 +21,8 @@ const layout = {
   }
 class LogIn extends Component<Props> {
 
-  onFinish = (values: any, history: any) => {
+  onFinish = (values: any) => {
     authenticate(this.props.room, values.password);
-    //history.push()
     // const { setUser } = this.context;
     // const user = await login(values.email, values.password);
     // if (user) {
@@ -45,41 +44,39 @@ class LogIn extends Component<Props> {
                         <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>
                             LOG IN TO PRIVATE ROOM
                         </h1>
-                        <Route render={({ history }) => (
                             <Form
                             {...layout}
                             name="basic"
                             initialValues={{
                                 remember: true,
                             }}
-                            onFinish={(values) => this.onFinish(values, history)}
+                            onFinish={(values) => this.onFinish(values)}
                             >
-                            <Form.Item
-                                label="Password"
-                                name="password"
-                                rules={[
-                                {
-                                    required: true,
-                                    message: "Please input your password!",
-                                },
-                                ]}
-                            >
-                                <Input.Password />
-                            </Form.Item>
+                                <Form.Item
+                                    label="Password"
+                                    name="password"
+                                    rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input your password!",
+                                    },
+                                    ]}
+                                >
+                                    <Input.Password />
+                                </Form.Item>
 
-                            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
-                                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                    <Button
-                                        type="primary"
-                                        htmlType="submit" 
-                                        style={buttonStyle}
-                                    >
-                                        Log in
-                                    </Button>
-                                </div>
-                            </Form.Item>
+                                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
+                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                        <Button
+                                            type="primary"
+                                            htmlType="submit" 
+                                            style={buttonStyle}
+                                        >
+                                            Log in
+                                        </Button>
+                                    </div>
+                                </Form.Item>
                             </Form>
-                        )}/>
                         </Col>
                     </Row>
                 </div>
