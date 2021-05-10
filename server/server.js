@@ -21,20 +21,20 @@ const bot = 'Waffle bot';
 // room can be used in filter the user on a server
 const rooms = [];
 const messages = {};
-const username = '';
 
 
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
     socket.emit('updateRooms', rooms);
+    getAllRooms();
 
     socket.on('joinRoom', (roomName, user) => {
 
         
         // console.log({rooms: roomName})
         // console.log({username: user})
-        checkUser(socket.id)
+        // checkUser(socket.id)
 
         // // Sets the users information to handleMessages from the client
         // const user = saveUser(room, socket.id)
@@ -54,7 +54,9 @@ io.on('connection', (socket) => {
         socket.emit('getAllMessages', messages[roomName] || []); 
 
         // //Sends a message to everyone that a new user has been connected to the room
-        socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${username} has joined Waffle!`))
+        socket.broadcast.to(roomName).emit('message', formatMessage(bot, roomName, `${user} has joined Waffle!`))
+
+        
     })
 
     socket.on('getRooms', () => {
@@ -97,6 +99,34 @@ io.on('connection', (socket) => {
         }
     })
 });
+
+function getAllRooms() {
+    const roomsAndSockets = io.sockets.adapter.rooms.keys();
+
+    const existingRooms = [];
+    for(const room of roomsAndSockets) {
+        if (room.length <= 18) {
+            existingRooms.push(room);
+        }
+    }
+
+    cleanUpOldRoomData(existingRooms)
+
+    return existingRooms // [{ name: 'a', isPrivate: false }, 'b']
+}
+
+function cleanUpOldRoomData(existingRooms) {
+    const roomsToDelete = []
+    rooms.forEach(room => {
+        if (!existingRooms.some(existingRoom => existingRoom === room.name)) {
+            roomsToDelete.push(room)
+        }
+    })
+    roomsToDelete.forEach((room) => {
+        const index = rooms.indexOf(room);
+        rooms.splice(index, 1);
+    })
+}
 
 function checkUser(id) {
     console.log('whoot')
