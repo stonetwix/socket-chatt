@@ -27,10 +27,12 @@ class ReplyMessage extends Component<Props, State> {
     msg: '',
   };
 
-
   // Handle the input onchange
-  handleMsgChange = (e: any) => {
+  handleMsgChange = async (e: any) => {
     this.setState({msg: e.target.value})
+    if (e.target.value === '/cat') {
+      this.setState({msg: await fetchCatFacts()})
+    }
   }
 
   handleKeyPress = (e: any) => {
@@ -43,25 +45,14 @@ class ReplyMessage extends Component<Props, State> {
  
   // This function sends back the input value to the sever
   // The input value will also be reset
-  sendMsg = () => {
+  sendMsg = async () => {
     const { username } = this.context;
     const { location } = this.props;
     const roomName = location.pathname.split('/').slice(-1).pop();
-    
-    if (this.state.msg === '/cat') {
-      this.fetchFacts();
-    }
+
     // A function that is imported from socketUtils
     sendMessage(username, roomName, this.state.msg)
     this.setState({msg:""})
-  }
-  
-  fetchFacts() {
-    fetch("https://catfact.ninja/fact?max_length=140")
-    .then(response => response.text())
-    .then(data => {
-      console.log(data)
-    })
   }
 
   render() {
@@ -109,4 +100,15 @@ const replystyle: CSSProperties = {
 const buttonstyle: CSSProperties = {
   width: '10rem',
   marginTop: '1rem'
+};
+
+async function fetchCatFacts() {
+  try {
+      const url = "https://catfact.ninja/fact?max_length=140";
+      const result = await fetch(url);
+      const data = await result.json();
+      return data.fact;    
+  } catch (error) {
+      console.log(error);
+  }
 };
