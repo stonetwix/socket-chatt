@@ -3,6 +3,7 @@ import { Component, ContextType, CSSProperties } from 'react';
 import { sendMessage, socket } from '../../socketUtils';
 import { ChattContext } from '../chatContext';
 import { Room } from '../AddRoom/AddNewRoom';
+import istyping from '../../assets/typing2.gif'; 
 
 const { TextArea } = Input;
 
@@ -23,10 +24,6 @@ class ReplyMessage extends Component<Props, State> {
     msg: '',
     isTyping: false,
   };
-
-  timeOut = () => {
-    socket.emit('No longer typing');
-  }
 
   // Handle the input onchange
   handleMsgChange = (e: any) => {
@@ -58,6 +55,17 @@ class ReplyMessage extends Component<Props, State> {
     socket.emit('isTyping', false, username, this.props.room.name);
   }
   
+  usersTypingInRoom = (usersInRoom: string[]) => {
+    if (!usersInRoom || usersInRoom.length === 0) {
+      return <div></div>;
+    }
+    return (
+      <div>
+        <img src={istyping} alt="istyping" />{usersInRoom.join(', ') + ' is typing...'}
+      </div>
+    );
+  }
+
   render() {
     return (
       <ChattContext.Consumer>
@@ -65,7 +73,7 @@ class ReplyMessage extends Component<Props, State> {
           return(
             <>
               <Form style={replystyle}>
-                <div>{usersTyping[this.props.room.name]}</div>
+                {this.usersTypingInRoom(usersTyping[this.props.room.name])}
                 <TextArea 
                   rows={2}
                   style={textareastyle}
