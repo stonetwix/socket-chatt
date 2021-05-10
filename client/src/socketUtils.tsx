@@ -20,6 +20,7 @@ export function createRoom(room: Room) {
 }
 
 export function joinRoom(room: Room) {
+    socket.emit('leaveRoom', room)
     socket.emit('joinRoom', room);
 }
 

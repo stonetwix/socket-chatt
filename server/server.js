@@ -27,11 +27,15 @@ const authenticatedSockets = {};
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
-    socket.emit('updateRooms', rooms);
     
+    socket.emit('updateRooms', rooms);
 
     socket.on('joinRoom', (room) => {
-        getAllRooms();
+        
+
+       
+        
+        
         const authRooms = authenticatedSockets[socket.id] || [];
         if (room.isPrivate && !authRooms.find(roomName => room.name === roomName)) {
             console.log('Not authenticated');
@@ -41,6 +45,7 @@ io.on('connection', (socket) => {
 
         // Joins the room that the user clicked on
         socket.join(room.name);
+        getAllRooms();
 
         // // Sends a welcome message to the connected user
         //const message = formatMessage(bot, room.name,`Hi ${username} Welcome to Waffle!`);
@@ -49,6 +54,8 @@ io.on('connection', (socket) => {
         // //Sends a message to everyone that a new user has been connected to the room
         socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name, `${username} has joined Waffle!`))
     });
+
+
 
     socket.on('getRooms', () => {
         console.log('Get rooms: ', rooms)
@@ -91,40 +98,81 @@ io.on('connection', (socket) => {
         socket.emit('authenticatedRoom', {roomName: roomName});
     });
 
+    
+    socket.on('leaveRoom', (room) => {
+        //
+        // TODO: Jag behöver komma åt det gamla rum värdet för att kunna lämna rummet. 
+        // TODO: Fungerar men måste ha rummet
+        //
+        socket.leave('Salen')
+        getAllRooms()
+        // console.log({LämnatRum: room.name})
+        // socket.leave(room.name)
+    })
+
     function getAllRooms() {
         const roomsAndSockets = io.sockets.adapter.rooms.keys();
-    
-        const existingRooms = [];
+        // console.log({DavidsKodRoom: roomsAndSockets})
+        let existingRooms = []
+
+        // existingRooms = []
+                
         for(const room of roomsAndSockets) {
+            
             if (room.length <= 18) {
-                console.log({DavidsKodRoom: room})
-                existingRooms.push(room);                
+                // console.log({DavidsKodRoom: room})
+                
+                if(room === existingRooms) {
+                    // console.log({ROOM: room})
+                    return
+                } else {
+                    // console.log({ROOM: room})
+                    
+                    // console.log({Push: room})
+                    existingRooms.push(room); 
+                    // console.log({EXISTROOM: existingRooms})
+                }
             } else {
-                console.log({DavidsKodSockets: room})
+                // console.log({DavidsKodSockets: room})
             }
-        }
+        }      
         
-        
-    
         cleanUpOldRoomData(existingRooms)
     
         return existingRooms // [{ name: 'a', isPrivate: false }, 'b']
     }
 
     function cleanUpOldRoomData(existingRooms) {
+        let roomIndex;
         console.log({DavidsKodAllaRum: existingRooms})
-        console.log({ALLAVÅRARUM: rooms})
-        const roomsToDelete = []
+        // console.log({ALLAVÅRARUM: rooms})
+        let roomsToDelete = []
         rooms.forEach(room => {
             if (!existingRooms.some(existingRoom => existingRoom === room.name)) {
                 roomsToDelete.push(room)
+                console.log({RUMFINNS: existingRooms})
+            } else {
+                return
             }
         })
-        // roomsToDelete.forEach((room) => {
-        //     const index = rooms.indexOf(room);
-        //     rooms.splice(index, 1);
-        // })
-        console.log({DavidsKod: roomsToDelete})
+        if (roomsToDelete === [] ) {
+            return
+        } else {
+            roomsToDelete.forEach((room) => {
+                console.log({RummetFöre: rooms})
+                const index = rooms.indexOf(room);
+                // console.log({Index: index})
+                rooms.splice(index, 1);
+                //
+                // TODO: Uppdatera listan efter detta kört!
+                roomIndex = index
+                console.log({RummetEfter: rooms})
+            })
+        }
+
+        
+        
+        // console.log({DavidsKod: roomsToDelete})
     }
 
     socket.on('addUser', (username) => {
@@ -135,10 +183,8 @@ io.on('connection', (socket) => {
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
-        const user = getUser(socket.id)
-        if (user) {
-            io.emit('message', formatMessage(bot, user.room, `${user.user} has left the room`))
-        }
+        getAllRooms();
+            io.emit('message', 'user has left')        
     })
 });
 
