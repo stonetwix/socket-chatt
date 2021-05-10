@@ -22,8 +22,9 @@ const bot = 'Waffle bot';
 // room can be used in filter the user on a server
 const rooms = [];
 const messages = {};
-const username = '';
+const username = [];
 const authenticatedSockets = {};
+const socketUserMap = {};
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
@@ -46,11 +47,15 @@ io.on('connection', (socket) => {
 
         // //Sends a message to everyone that a new user has been connected to the room
         socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name, `${username} has joined Waffle!`))
+        for(const room of io.sockets.adapter.rooms.keys()) {
+            console.log('Room ', room,  'clients: ', io.sockets.adapter.rooms.get(room));
+        }
     });
 
     socket.on('getRooms', () => {
         console.log('Get rooms: ', rooms)
         socket.emit('setRooms', rooms);
+        //console.log('sockets in room: ', io.sockets.adapter.rooms.get())
     });
 
     // Handle the chat messaging from user inputs
@@ -90,8 +95,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('addUser', (username) => {
-        io.emit('message', username)
-            console.log(username)
+        socketUserMap[socket.id] = username;
+        //io.emit('message', username)
+        console.log('addUser: ', socketUserMap);
+    });
+
+    socket.on('isTyping', (isTyping, username, roomName) => {
+        socket.broadcast.emit('typing', isTyping, username, roomName);
     });
 
     // This sends a message to the client that someone has been disconnected from the chatroom
