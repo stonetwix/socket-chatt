@@ -23,11 +23,18 @@ const rooms = [];
 const messages = {};
 const username = '';
 
+
+
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
     socket.emit('updateRooms', rooms);
 
-    socket.on('joinRoom', (roomName) => {
+    socket.on('joinRoom', (roomName, user) => {
+
+        
+        // console.log({rooms: roomName})
+        // console.log({username: user})
+        checkUser(socket.id)
 
         // // Sets the users information to handleMessages from the client
         // const user = saveUser(room, socket.id)
@@ -39,6 +46,8 @@ io.on('connection', (socket) => {
 
         // Joins the room that the user clicked on
         socket.join(roomName);
+
+        
 
         // // Sends a welcome message to the connected user
         //const message = formatMessage(bot, room.name,`Hi ${username} Welcome to Waffle!`);
@@ -89,15 +98,98 @@ io.on('connection', (socket) => {
     })
 });
 
-function getExistingRooms() {
-    const sockets = Object.values(io.sockets.sockets);
-    let rooms = [];
-    for (const socket of sockets) {
-        const existingRooms = Object.keys(socket.rooms).filter(room => room === socket.id);
-        rooms.push(...existingRooms);
+function checkUser(id) {
+    console.log('whoot')
+    
+    let roomsTest = [
+        {room: 'Salen'},
+        {room: 'Test1'},
+        {room: 'Test2'}
+    ]
+
+    console.log({Massarum: roomsTest})
+
+    let userInRoom = [{
+        user: 'nicklas',
+        room: 'Salen'
+    },
+    {
+        user: 'dante',
+        room: "Test2"
+    }]
+
+
+    let noRoom = nedu()
+
+    function nedu(){
+        const isRoom = []
+        const userRoom = []
+        for(room of roomsTest) {
+            // console.log({testar:room.room})
+            isRoom.push(room.room)           
+        }
+
+        for(user of userInRoom) {
+            // console.log({testarUser: user.room})
+            userRoom.push(user.room)
+        }        
+
+        console.log(isRoom)
+        console.log(userRoom)
+
+        for(i = 0; isRoom.length; i++){
+
+            for(j = 0; userRoom.length; i++){
+
+                if(isRoom[i] === userRoom[j]) {
+                    console.log({HittaRummet: userRoom})
+                    roomsTest=userRoom
+                } return
+            }
+        }
+        
     }
-    console.log(rooms);
-    return [...new Set(rooms)];
+    console.log({NuJävlar: roomsTest})
+
+    function hej() {
+
+        for(i = 0; i < roomsTest.length; i++) {
+            let room = roomsTest[i].room
+            for(a = 0; a < userInRoom.length; a++){
+                let userRoom = userInRoom[a].room
+                if(userRoom === room) {
+                    console.log(room)
+                } else {
+                    if(roomsTest.room === room) {
+                        console.log(room)
+                        return
+                    } else {
+                        console.log({felRum: room})
+                        let findRoom = roomsTest.filter((roomy) => {
+                            return roomy.room !== room;
+                        })
+
+                        function isRoom(roomsTest) {
+                            return roomsTest.room === room[0].room
+                        }
+                        console.log()
+                        const isARoom = roomsTest.findIndex(isRoom)
+                        roomsTest.splice(isARoom, 1)
+                        return findRoom
+                    }
+                }
+            }
+        }
+    }
+         
+
+   
+    // console.log(roomTest[1].room)
+
+    
+    // console.log({nuvarande: roomsTest})   
+
+
 }
 
 server.listen(port, () => console.log(`Server is running on port http://localhost:${port}`));
