@@ -1,27 +1,18 @@
 import { Input, Button, Row, Col, Divider, Form } from "antd";
-import React, { CSSProperties, Component } from "react";
+import { CSSProperties, Component, ContextType } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { addUsername } from "../../socketUtils"; 
+import { ChattContext } from "../chatContext";
 
-interface State {
-  username: string
-}
 
 interface Props extends RouteComponentProps {}
 
-class Welcome extends Component <Props, State> {
+class Welcome extends Component <Props> {
+  context!: ContextType<typeof ChattContext>
+  static contextType = ChattContext;
 
-  state: State = {
-    username: '',
-  };
-
-  handleUser = (e:any) =>  {
-    this.setState({username:e.target.value})
-  }
-
-  addUser = () => {
-    addUsername(this.state.username);
-    this.setState({username:""})
+  onFinish = (values: any) => {
+    const { setUsername } = this.context;
+    setUsername(values.username);
     this.props.history.push('/rooms');
   }
 
@@ -60,27 +51,24 @@ class Welcome extends Component <Props, State> {
             Enter your name
           </h3>
 
-          <Form style={align}>
+          <Form style={align} onFinish={this.onFinish}>
             <Form.Item name="username">
-              <Input  
-                onChange={this.handleUser}
-                value={this.state.username}
-               />
+              <Input />
             </Form.Item>
 
             <Form.Item>
-                <Button 
-                  htmlType="submit" 
-                  style={buttonStyle} 
-                  onClick={this.addUser}> 
-                    Join
-                </Button>
+              <Button 
+                htmlType="submit" 
+                style={buttonStyle}
+              > 
+                Join
+              </Button>
             </Form.Item>
           </Form>
           </div>
         </Col>
       </Row>
-    );
+    ) 
   }
 }
 
