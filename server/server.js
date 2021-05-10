@@ -28,8 +28,10 @@ const authenticatedSockets = {};
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
     socket.emit('updateRooms', rooms);
+    
 
     socket.on('joinRoom', (room) => {
+        getAllRooms();
         const authRooms = authenticatedSockets[socket.id] || [];
         if (room.isPrivate && !authRooms.find(roomName => room.name === roomName)) {
             console.log('Not authenticated');
@@ -88,6 +90,42 @@ io.on('connection', (socket) => {
         console.log('auth socket: ', authenticatedSockets);
         socket.emit('authenticatedRoom', {roomName: roomName});
     });
+
+    function getAllRooms() {
+        const roomsAndSockets = io.sockets.adapter.rooms.keys();
+    
+        const existingRooms = [];
+        for(const room of roomsAndSockets) {
+            if (room.length <= 18) {
+                console.log({DavidsKodRoom: room})
+                existingRooms.push(room);                
+            } else {
+                console.log({DavidsKodSockets: room})
+            }
+        }
+        
+        
+    
+        cleanUpOldRoomData(existingRooms)
+    
+        return existingRooms // [{ name: 'a', isPrivate: false }, 'b']
+    }
+
+    function cleanUpOldRoomData(existingRooms) {
+        console.log({DavidsKodAllaRum: existingRooms})
+        console.log({ALLAVÅRARUM: rooms})
+        const roomsToDelete = []
+        rooms.forEach(room => {
+            if (!existingRooms.some(existingRoom => existingRoom === room.name)) {
+                roomsToDelete.push(room)
+            }
+        })
+        // roomsToDelete.forEach((room) => {
+        //     const index = rooms.indexOf(room);
+        //     rooms.splice(index, 1);
+        // })
+        console.log({DavidsKod: roomsToDelete})
+    }
 
     socket.on('addUser', (username) => {
         io.emit('message', username)
