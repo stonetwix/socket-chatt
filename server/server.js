@@ -46,6 +46,7 @@ io.on('connection', (socket) => {
         socket.emit('getAllMessages', messages[room.name] || []); 
 
         // //Sends a message to everyone that a new user has been connected to the room
+        const username = socketUserMap[socket.id]
         socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name, `${username} has joined Waffle!`))
         for(const room of io.sockets.adapter.rooms.keys()) {
             console.log('Room ', room,  'clients: ', io.sockets.adapter.rooms.get(room));
