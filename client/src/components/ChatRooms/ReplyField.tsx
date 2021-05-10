@@ -27,6 +27,7 @@ class ReplyMessage extends Component<Props, State> {
     msg: '',
   };
 
+
   // Handle the input onchange
   handleMsgChange = (e: any) => {
     this.setState({msg: e.target.value})
@@ -46,11 +47,23 @@ class ReplyMessage extends Component<Props, State> {
     const { username } = this.context;
     const { location } = this.props;
     const roomName = location.pathname.split('/').slice(-1).pop();
-     // A function that is imported from socketUtils
+    
+    if (this.state.msg === '/cat') {
+      this.fetchFacts();
+    }
+    // A function that is imported from socketUtils
     sendMessage(username, roomName, this.state.msg)
     this.setState({msg:""})
   }
   
+  fetchFacts() {
+    fetch("https://catfact.ninja/fact?max_length=140")
+    .then(response => response.text())
+    .then(data => {
+      console.log(data)
+    })
+  }
+
   render() {
     return (
       <ChattContext.Consumer>
