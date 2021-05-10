@@ -1,27 +1,34 @@
 import { Component, createContext } from 'react';
 import { socket } from '../socketUtils';
 import { Room } from './AddRoom/AddNewRoom';
+import { ChatMessage } from './ChatRooms/ChatRoomFeed';
 
 interface State {
     rooms: Room[],
-    messages: string[],
+    messages: ChatMessage[],
     username: string,
+    currentRoomName: string,
 }
 
 interface ContextValue extends State {
-
+    setUsername: (username: string) => void;
+    setCurrentRoom: (currentRoomName: string) => void;
 }
 
 export const ChattContext = createContext<ContextValue>({
     rooms: [],
     messages: [],
     username: '',
+    currentRoomName: '',
+    setUsername: () => {},
+    setCurrentRoom: () => {},
 });
 class ChattProvider extends Component<{}, State> {
     state: State = {
         rooms: [],
         messages: [],
-        username: '',
+        username: localStorage.getItem('username') as string,
+        currentRoomName: '',
     }
  
     componentDidMount = () => {
@@ -55,17 +62,26 @@ class ChattProvider extends Component<{}, State> {
 
         socket.emit('getRooms', {})
 
-        socket.on('addUser', (username) => {
-            console.log('Username: ', username);
-            this.setState({ username: username });
-        })
-
-        // Fetches the usernames
-        socket.on('addUser', (username) => {
-            console.log('Username: ', username);
-            this.setState({ username: username });
+        socket.on('authenticatedRoom', (result) => {
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
+            const rooms = this.state.rooms.map(
+                (item: Room) => item.name === result.roomName ? {...item, isAuthenticated: true} : item
+            );
+            this.setState({ rooms: rooms });
         })
     }    
+
+    setUsername = (username: string) => {
+        localStorage.setItem('username', username);
+        this.setState({ username: username });
+    }
+
+    setCurrentRoom = (currentRoomName: string) => {
+        this.setState({ currentRoomName: currentRoomName });
+    }
 
     render() {       
         return (
@@ -73,6 +89,9 @@ class ChattProvider extends Component<{}, State> {
                 rooms: this.state.rooms,
                 messages: this.state.messages,
                 username: this.state.username,
+                currentRoomName: this.state.currentRoomName,
+                setUsername: this.setUsername,
+                setCurrentRoom: this.setCurrentRoom,
             }}>
                 {this.props.children}
             </ChattContext.Provider>
