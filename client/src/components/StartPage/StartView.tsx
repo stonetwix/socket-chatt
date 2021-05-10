@@ -1,5 +1,5 @@
 import { Input, Button, Row, Col, Divider, Form } from "antd";
-import React, { CSSProperties, Component, ContextType } from "react";
+import { CSSProperties, Component, ContextType } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { ChattContext } from "../chatContext";
 

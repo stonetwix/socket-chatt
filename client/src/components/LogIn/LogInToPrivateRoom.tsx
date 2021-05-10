@@ -1,6 +1,5 @@
 import { Form, Input, Button, Row, Col, Layout } from "antd";
 import { CSSProperties, Component } from "react";
-import { Route } from 'react-router-dom';
 import { authenticate } from "../../socketUtils";
 import { Room } from "../AddRoom/AddNewRoom";
 import SiderMenu from '../ChatRooms/SiderMenu';
@@ -23,14 +22,6 @@ class LogIn extends Component<Props> {
 
   onFinish = (values: any) => {
     authenticate(this.props.room, values.password);
-    // const { setUser } = this.context;
-    // const user = await login(values.email, values.password);
-    // if (user) {
-    //   setUser(user.username, user.role === 'admin');
-    //   history.push('/user/');
-    // } else {
-    //   alert('Not valid e-mail or password');
-    // }
   };
 
   render() {
