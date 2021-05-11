@@ -33,6 +33,9 @@ class ReplyMessage extends Component<Props, State> {
     if (e.target.value === '/cat') {
       this.setState({msg: await fetchCatFacts()})
     }
+    if (e.target.value === '/chuck') {
+      this.setState({msg: await fetchChuckNorris()})
+    }
   }
 
   handleKeyPress = (e: any) => {
@@ -108,6 +111,16 @@ async function fetchCatFacts() {
       const result = await fetch(url);
       const data = await result.json();
       return data.fact;    
+  } catch (error) {
+      console.log(error);
+  }
+};
+async function fetchChuckNorris() {
+  try {
+      const url = "https://geek-jokes.sameerkumar.website/api";
+      const result = await fetch(url);
+      const data = await result.json();
+      return data;    
   } catch (error) {
       console.log(error);
   }
