@@ -28,7 +28,7 @@ class LogIn extends Component<Props> {
     return (
         <Layout style={{ background: '#fff' }}>
             <SiderMenu />
-            <Content style={{ margin: '8rem', background: '#fff' }}>
+            <Content style={{ margin: '8rem 2rem', background: '#fff' }}>
                 <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                     <Row>
                         <Col span={24}>
