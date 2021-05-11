@@ -1,82 +1,91 @@
 import { Input, Button, Form } from 'antd';
 import { Component, ContextType, CSSProperties } from 'react';
-import { sendMessage } from '../../socketUtils';
-import PropTypes from 'prop-types';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { sendMessage, socket } from '../../socketUtils';
 import { ChattContext } from '../chatContext';
+import { Room } from '../AddRoom/AddNewRoom';
+import istyping from '../../assets/typing2.gif'; 
 
 const { TextArea } = Input;
 
-interface State {
-  msg: string
+interface Props {
+  room: Room,
 }
 
-interface Props extends RouteComponentProps {
-  location: any
+interface State {
+  msg: string;
+  isTyping: boolean;
 }
 
 class ReplyMessage extends Component<Props, State> {
   context!: ContextType<typeof ChattContext>
   static contextType = ChattContext;
 
-  static propTypes = {
-    location: PropTypes.object.isRequired
-  }
-
   state: State = {
     msg: '',
+    isTyping: false,
   };
 
   // Handle the input onchange
   handleMsgChange = async (e: any) => {
-    this.setState({msg: e.target.value})
     if (e.target.value === '/cat') {
       this.setState({msg: await fetchCatFacts()})
     }
     if (e.target.value === '/chuck') {
       this.setState({msg: await fetchChuckNorris()})
     }
+
+    const { username } = this.context;
+    if (!this.state.msg) {
+      console.log('Start typing');
+      socket.emit('isTyping', true, username, this.props.room.name);
+    }
+    this.setState({msg: e.target.value})
+    
   }
 
-  handleKeyPress = (e: any) => {
-    console.log(e)
-    if (e.charCode === 92) {
-      console.log('You pressed backslash');
-      e.preventDefault();
-    }
-  }
- 
   // This function sends back the input value to the sever
   // The input value will also be reset
   sendMsg = async () => {
     const { username } = this.context;
-    const { location } = this.props;
-    const roomName = location.pathname.split('/').slice(-1).pop();
-
-    // A function that is imported from socketUtils
-    sendMessage(username, roomName, this.state.msg)
+     // A function that is imported from socketUtils
+    sendMessage(username, this.props.room.name, this.state.msg)
     this.setState({msg:""})
+    console.log('Stop typing');
+    socket.emit('isTyping', false, username, this.props.room.name);
+  }
+  
+  usersTypingInRoom = (usersInRoom: string[]) => {
+    if (!usersInRoom || usersInRoom.length === 0) {
+      return <div></div>;
+    }
+    return (
+      <div>
+        <img src={istyping} alt="istyping" />{usersInRoom.join(', ') + ' is typing...'}
+      </div>
+    );
   }
 
   render() {
     return (
       <ChattContext.Consumer>
-        {({ username }) => {
+        {({ usersTyping }) => {
           return(
-            <Form style={replystyle}>
-              <TextArea 
-                rows={2}
-                style={textareastyle}
-                id="msg"
-                onChange={this.handleMsgChange}
-                value={this.state.msg}
-                onKeyPress={this.handleKeyPress}
-              >
-              </TextArea>
-              <Button htmlType="submit" type="primary" style={buttonstyle} onClick={() => this.sendMsg()}>
-                Send Message
-              </Button>
-            </Form>
+            <>
+              <Form style={replystyle}>
+                {this.usersTypingInRoom(usersTyping[this.props.room.name])}
+                <TextArea 
+                  rows={2}
+                  style={textareastyle}
+                  id="msg"
+                  onChange={this.handleMsgChange}
+                  value={this.state.msg}
+                >
+                </TextArea>
+                <Button htmlType="submit" type="primary" style={buttonstyle} onClick={() => this.sendMsg()}>
+                  Send Message
+                </Button>
+              </Form>
+            </>
           )
         }}
       </ChattContext.Consumer>
@@ -84,7 +93,7 @@ class ReplyMessage extends Component<Props, State> {
   }
 }
 
-export default withRouter(ReplyMessage);
+export default ReplyMessage;
 
 const textareastyle: CSSProperties = {
   display: "flex",
