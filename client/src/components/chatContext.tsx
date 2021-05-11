@@ -2,12 +2,12 @@ import { Component, createContext } from 'react';
 import { socket } from '../socketUtils';
 import { Room } from './AddRoom/AddNewRoom';
 import { ChatMessage } from './ChatRooms/ChatRoomFeed';
-
 interface State {
     rooms: Room[],
     messages: ChatMessage[],
     username: string,
     currentRoomName: string,
+    usersTyping: Record<string, string[]>,
 }
 
 interface ContextValue extends State {
@@ -20,6 +20,7 @@ export const ChattContext = createContext<ContextValue>({
     messages: [],
     username: '',
     currentRoomName: '',
+    usersTyping: {},
     setUsername: () => {},
     setCurrentRoom: () => {},
 });
@@ -29,6 +30,7 @@ class ChattProvider extends Component<{}, State> {
         messages: [],
         username: localStorage.getItem('username') as string,
         currentRoomName: '',
+        usersTyping: {},
     }
  
     componentDidMount = () => {
@@ -60,8 +62,6 @@ class ChattProvider extends Component<{}, State> {
             this.setState({ rooms: rooms });
         })
 
-        socket.emit('getRooms', {})
-
         socket.on('authenticatedRoom', (result) => {
             if (result.error) {
                 alert(result.error);
@@ -72,11 +72,33 @@ class ChattProvider extends Component<{}, State> {
             );
             this.setState({ rooms: rooms });
         })
+
+        socket.on('typing', (isTyping: boolean, username: string, roomName: string) => {
+            let newUserTyping = {} as Record<string, string[]>;
+            const users = this.state.usersTyping[roomName] || [];
+            console.log('Typing: ', isTyping, username, roomName)
+            if (isTyping) {
+                newUserTyping = {
+                    ...this.state.usersTyping,
+                }
+                newUserTyping[roomName] = [...users, username];
+            } else {
+                newUserTyping = {
+                    ...this.state.usersTyping,
+                }
+                newUserTyping[roomName] = users.filter((name: string) => name !== username);
+            }
+            this.setState({usersTyping: newUserTyping});
+        })
+
+        socket.emit('getRooms', {});
+        socket.emit('addUser', this.state.username);
     }    
 
     setUsername = (username: string) => {
         localStorage.setItem('username', username);
         this.setState({ username: username });
+        socket.emit('addUser', this.state.username);
     }
 
     setCurrentRoom = (currentRoomName: string) => {
@@ -90,6 +112,7 @@ class ChattProvider extends Component<{}, State> {
                 messages: this.state.messages,
                 username: this.state.username,
                 currentRoomName: this.state.currentRoomName,
+                usersTyping: this.state.usersTyping,
                 setUsername: this.setUsername,
                 setCurrentRoom: this.setCurrentRoom,
             }}>

@@ -39,7 +39,7 @@ class ChatRoomView extends Component<Props> {
                 <SiderMenu />
                 <Content style={{ margin: '8rem', background: '#fff' }}>
                     <ChatRoomFeed room={room} /> 
-                    <ReplyMessage />
+                    <ReplyMessage room={room} />
                 </Content>
             </Layout>
         )
