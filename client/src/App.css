@@ -76,3 +76,7 @@ ul .ant-menu-horizontal {
 ::selection {
   background: #85b0a4;
 }
+
+aside {
+  margin-top: 1rem; 
+}
