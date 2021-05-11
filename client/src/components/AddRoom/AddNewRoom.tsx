@@ -5,7 +5,6 @@ import SiderMenu from '../ChatRooms/SiderMenu';
 import { createRoom } from '../../socketUtils';
 import { ChattContext } from "../chatContext";
 
-
 const { Content } = Layout;
 
 const layout = {
@@ -32,10 +31,12 @@ interface State {
   password?: string;
 }
 
+// When a room was created
 const success = (room:string) => {
   message.success(`The room ${room} has been added`, 3);
 };
 
+// if a room already exist
 const error = (room:string) => {
   message.success(`The room ${room} already exist`, 3);
 };
@@ -58,7 +59,10 @@ class AddNewRoom extends Component<Props, State> {
             password: values.room.password,
         } 
 
+        // Return a boolean if room already exist
         const doubleRoom = rooms.some(roomAr => roomAr.name === room.name)
+
+        // Checks if the room already exist
         if(rooms === null) {
             createRoom(room);
             this.props.history.push('/room/' + room.name);
@@ -152,7 +156,6 @@ class AddNewRoom extends Component<Props, State> {
                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                     <Button 
                                         type="primary"
-                                        // onClick={() => {success()}} 
                                         htmlType="submit" 
                                     >
                                         Save
