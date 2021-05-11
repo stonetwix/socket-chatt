@@ -66,7 +66,7 @@ io.on('connection', (socket) => {
 
         // If the user is true, send the chat message to specific room
         io.to(msg.room).emit('message', formatMessage(msg.user, msg.room, msg.message))
-        console.log(msg);
+        // console.log(msg);
         messages[msg.room].push(formatMessage(msg.user, msg.room, msg.message));
         console.log('chat', messages);
     });
@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
 
     socket.on('authenticate', async (roomName, password) => {
         const room = rooms.find(room => room.name === roomName);
-        console.log('authenticate: ', room);
+        // console.log('authenticate: ', room);
         if (!await bcrypt.compare(password, room.password)) {
             socket.emit('authenticatedRoom', { roomName: roomName, error: 'Invalid password' });
             console.log('invalid password');
@@ -105,6 +105,10 @@ io.on('connection', (socket) => {
         // console.log({LämnatRum: room.name})
         // socket.leave(room.name)
     })
+
+    function updateActiveRooms(room){
+        io.emit('updateAllRooms', rooms);
+    }
 
     function getAllRooms() {
         const roomsAndSockets = io.sockets.adapter.rooms.keys();
@@ -146,7 +150,7 @@ io.on('connection', (socket) => {
         rooms.forEach(room => {
             if (!existingRooms.some(existingRoom => existingRoom === room.name)) {
                 roomsToDelete.push(room)
-                console.log({RUMFINNS: existingRooms})
+                // console.log({RUMFINNS: existingRooms})
             } else {
                 return
             }
@@ -159,9 +163,9 @@ io.on('connection', (socket) => {
                 const index = rooms.indexOf(room);
                 // console.log({Index: index})
                 rooms.splice(index, 1);
-                
+                updateActiveRooms(room)
                 // TODO: Uppdatera listan efter detta kört!
-                socket.emit('updateRooms', rooms);
+                // socket.emit('updateAllRooms', rooms);
                 //roomIndex = index
                 console.log({RummetEfter: rooms})
             })
@@ -181,7 +185,9 @@ io.on('connection', (socket) => {
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
         getAllRooms();
-        socket.emit('updateRooms', rooms);
+        console.log('Uppdatera efter stängt ner')
+        
+        // socket.emit('updateRooms', rooms);
             io.emit('message', 'user has left')        
     })
 });

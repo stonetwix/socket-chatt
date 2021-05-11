@@ -38,6 +38,7 @@ class SiderMenu extends Component<Props> {
         return (
             <ChattContext.Consumer>
                 {({ rooms }) => {
+                    console.log(rooms)
                     return (
                         <Sider
                             breakpoint="lg"
