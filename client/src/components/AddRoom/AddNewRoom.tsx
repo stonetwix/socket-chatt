@@ -38,7 +38,7 @@ const success = (room:string) => {
 
 // if a room already exist
 const error = (room:string) => {
-  message.success(`The room ${room} already exist`, 3);
+  message.error(`The room ${room} already exist`, 3);
 };
 
 class AddNewRoom extends Component<Props, State> {
