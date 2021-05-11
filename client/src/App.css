@@ -80,3 +80,15 @@ ul .ant-menu-horizontal {
 aside {
   margin-top: 1rem; 
 }
+
+@media screen and (max-width: 1165px) {
+  .ant-form-item {
+    display: flex;
+    flex-direction: column;
+  
+  }
+}
+
+.ant-form-item-label::after{
+
+}
