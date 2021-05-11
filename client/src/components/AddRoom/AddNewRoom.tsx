@@ -1,8 +1,10 @@
-import { Component } from "react";
+import { Component, ContextType } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../ChatRooms/SiderMenu';
 import { createRoom } from '../../socketUtils';
+import { ChattContext } from "../chatContext";
+
 
 const { Content } = Layout;
 
@@ -30,24 +32,47 @@ interface State {
   password?: string;
 }
 
-const success = () => {
-  message.success('The room has been added', 3);
+const success = (room:string) => {
+  message.success(`The room ${room} has been added`, 3);
+};
+
+const error = (room:string) => {
+  message.success(`The room ${room} already exist`, 3);
 };
 
 class AddNewRoom extends Component<Props, State> {
+    context!: ContextType<typeof ChattContext>
+    static contextType = ChattContext;
+
     state: State = {
         isRoomPrivate: false,
         password: '',
     };
 
     onFinish = (values: any) => {
+        const { rooms } = this.context;
+
         const room: Room = {
             name: values.room.name,
             isPrivate: values.room.status === 'private',
             password: values.room.password,
         } 
-        createRoom(room);
-        this.props.history.push('/room/' + room.name);
+
+        const doubleRoom = rooms.some(roomAr => roomAr.name === room.name)
+        if(rooms === null) {
+            createRoom(room);
+            this.props.history.push('/room/' + room.name);
+            success(room.name)
+        } else if (doubleRoom === true) {
+            error(room.name)
+            return           
+        } else if (doubleRoom === false) {
+            createRoom(room);
+            this.props.history.push('/room/' + room.name);
+            success(room.name)
+        } else {
+            return
+        }
     };
 
     onSelectChange = (value: any) => {
@@ -97,6 +122,7 @@ class AddNewRoom extends Component<Props, State> {
     }
 
     render() {
+        
         const passwordField = this.state.isRoomPrivate ? this.createPasswordComponents() : <div></div>
     
         return (       
@@ -126,7 +152,7 @@ class AddNewRoom extends Component<Props, State> {
                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                     <Button 
                                         type="primary"
-                                        onClick={() => {success()}} 
+                                        // onClick={() => {success()}} 
                                         htmlType="submit" 
                                     >
                                         Save
