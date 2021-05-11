@@ -20,7 +20,7 @@ const bot = 'Waffle bot';
 
 
 // room can be used in filter the user on a server
-const rooms = [];
+let rooms = [];
 const messages = {};
 const username = [];
 const authenticatedSockets = {};
@@ -105,14 +105,11 @@ io.on('connection', (socket) => {
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
-        const roomsAndSockets = io.sockets.adapter.rooms.keys();
-        for(const room of roomsAndSockets) {
-            if (roomsAndSockets.get(room) === 0) {
-                rooms.filter((room) => room !== room.name);
-            }
-            //console.log('Room ', room,  'clients: ', io.sockets.adapter.rooms.get(room));
-        }
-        
+        const roomNames = rooms.map(r => r.name);
+        const socketRoomNames = new Set(io.sockets.adapter.rooms.keys());
+        const roomNamesToRemove = new Set([...roomNames].filter((x) => !socketRoomNames.has(x)));
+        rooms = rooms.filter(r => !roomNamesToRemove.has(r.name));
+        io.emit('setRooms', rooms);
     })
 });
 

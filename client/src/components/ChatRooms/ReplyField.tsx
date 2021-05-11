@@ -74,15 +74,14 @@ class ReplyMessage extends Component<Props, State> {
             <>
               <Form style={replystyle}>
                 {this.usersTypingInRoom(usersTyping[this.props.room.name])}
-                <TextArea 
-                  rows={2}
+                <Input 
                   style={textareastyle}
                   id="msg"
                   onChange={this.handleMsgChange}
                   value={this.state.msg}
                   onKeyPress={this.handleKeyPress}
                 >
-                </TextArea>
+                </Input>
                 <Button htmlType="submit" type="primary" style={buttonstyle} onClick={() => this.sendMsg()}>
                   Send Message
                 </Button>
