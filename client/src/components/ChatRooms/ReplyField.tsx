@@ -26,7 +26,14 @@ class ReplyMessage extends Component<Props, State> {
   };
 
   // Handle the input onchange
-  handleMsgChange = (e: any) => {
+  handleMsgChange = async (e: any) => {
+    if (e.target.value === '/cat') {
+      this.setState({msg: await fetchCatFacts()})
+    }
+    if (e.target.value === '/chuck') {
+      this.setState({msg: await fetchChuckNorris()})
+    }
+
     const { username } = this.context;
     if (!this.state.msg) {
       console.log('Start typing');
@@ -36,17 +43,9 @@ class ReplyMessage extends Component<Props, State> {
     
   }
 
-  handleKeyPress = (e: any) => {
-    console.log(e)
-    if (e.charCode === 92) {
-      console.log('You pressed backslash');
-      e.preventDefault();
-    }
-  }
-
   // This function sends back the input value to the sever
   // The input value will also be reset
-  sendMsg = () => {
+  sendMsg = async () => {
     const { username } = this.context;
      // A function that is imported from socketUtils
     sendMessage(username, this.props.room.name, this.state.msg)
@@ -80,7 +79,6 @@ class ReplyMessage extends Component<Props, State> {
                   id="msg"
                   onChange={this.handleMsgChange}
                   value={this.state.msg}
-                  onKeyPress={this.handleKeyPress}
                 >
                 </TextArea>
                 <Button htmlType="submit" type="primary" style={buttonstyle} onClick={() => this.sendMsg()}>
@@ -114,4 +112,25 @@ const replystyle: CSSProperties = {
 const buttonstyle: CSSProperties = {
   width: '10rem',
   marginTop: '1rem'
+};
+
+async function fetchCatFacts() {
+  try {
+      const url = "https://catfact.ninja/fact?max_length=140";
+      const result = await fetch(url);
+      const data = await result.json();
+      return data.fact;    
+  } catch (error) {
+      console.log(error);
+  }
+};
+async function fetchChuckNorris() {
+  try {
+      const url = "https://api.chucknorris.io/jokes/random";
+      const result = await fetch(url);
+      const data = await result.json();
+      return data.value;    
+  } catch (error) {
+      console.log(error);
+  }
 };
