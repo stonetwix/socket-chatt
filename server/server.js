@@ -48,9 +48,6 @@ io.on('connection', (socket) => {
         // //Sends a message to everyone that a new user has been connected to the room
         const username = socketUserMap[socket.id]
         socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name, `${username} has joined Waffle!`))
-        for(const room of io.sockets.adapter.rooms.keys()) {
-            console.log('Room ', room,  'clients: ', io.sockets.adapter.rooms.get(room));
-        }
     });
 
     socket.on('getRooms', () => {
@@ -108,10 +105,14 @@ io.on('connection', (socket) => {
     // This sends a message to the client that someone has been disconnected from the chatroom
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
-        const user = getUser(socket.id)
-        if (user) {
-            io.emit('message', formatMessage(bot, user.room, `${user.user} has left the room`))
+        const roomsAndSockets = io.sockets.adapter.rooms.keys();
+        for(const room of roomsAndSockets) {
+            if (roomsAndSockets.get(room) === 0) {
+                rooms.filter((room) => room !== room.name);
+            }
+            //console.log('Room ', room,  'clients: ', io.sockets.adapter.rooms.get(room));
         }
+        
     })
 });
 
