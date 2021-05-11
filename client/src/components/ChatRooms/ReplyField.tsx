@@ -126,10 +126,10 @@ async function fetchCatFacts() {
 };
 async function fetchChuckNorris() {
   try {
-      const url = "https://geek-jokes.sameerkumar.website/api";
+      const url = "https://api.chucknorris.io/jokes/random";
       const result = await fetch(url);
       const data = await result.json();
-      return data;    
+      return data.value;    
   } catch (error) {
       console.log(error);
   }
