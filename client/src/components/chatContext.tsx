@@ -60,6 +60,10 @@ class ChattProvider extends Component<{}, State> {
             this.setState({ rooms: rooms });
         })
 
+        // socket.on('leaveRoom', (rooms) => {
+        //     this.setState({ rooms: rooms });
+        // })
+
         socket.emit('getRooms', {})
 
         socket.on('authenticatedRoom', (result) => {

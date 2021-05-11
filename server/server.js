@@ -27,15 +27,10 @@ const authenticatedSockets = {};
 
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
-    
     socket.emit('updateRooms', rooms);
 
     socket.on('joinRoom', (room) => {
-        
-
-       
-        
-        
+          
         const authRooms = authenticatedSockets[socket.id] || [];
         if (room.isPrivate && !authRooms.find(roomName => room.name === roomName)) {
             console.log('Not authenticated');
@@ -60,6 +55,7 @@ io.on('connection', (socket) => {
     socket.on('getRooms', () => {
         console.log('Get rooms: ', rooms)
         socket.emit('setRooms', rooms);
+        getAllRooms()
     });
 
     // Handle the chat messaging from user inputs
@@ -163,9 +159,10 @@ io.on('connection', (socket) => {
                 const index = rooms.indexOf(room);
                 // console.log({Index: index})
                 rooms.splice(index, 1);
-                //
+                
                 // TODO: Uppdatera listan efter detta kört!
-                roomIndex = index
+                socket.emit('updateRooms', rooms);
+                //roomIndex = index
                 console.log({RummetEfter: rooms})
             })
         }
@@ -184,6 +181,7 @@ io.on('connection', (socket) => {
     // Use leaving to write the disconnect-message
     socket.on('disconnect', () => {
         getAllRooms();
+        socket.emit('updateRooms', rooms);
             io.emit('message', 'user has left')        
     })
 });
