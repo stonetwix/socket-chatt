@@ -26,14 +26,6 @@ const usernames = [];
 const authenticatedSockets = {};
 const socketUserMap = {};
 
-const emitUsersInRooms = (roomNames) => {
-    for (const roomName of roomNames) {
-        const socketsInRoom = new Set(io.sockets.adapter.rooms.get(roomName));
-        const usersInRoom = [...socketsInRoom].map(s => socketUserMap[s]);
-        io.emit('usersInRoom', usersInRoom, roomName);
-    }
-}
-
 io.on('connection', (socket) => {
     console.log("Client was connected:", socket.id);
     socket.emit('updateRooms', rooms);
@@ -57,9 +49,6 @@ io.on('connection', (socket) => {
         const username = socketUserMap[socket.id];
         socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name, `${username} has joined Waffle!`))
 
-        // const socketsInRoom = new Set(io.sockets.adapter.rooms.get(room.name));
-        // const usersInRoom = [...socketsInRoom].map(s => socketUserMap[s]);
-        // io.emit('usersInRoom', usersInRoom, room.name);
         emitUsersInRooms([room.name]);
     });
 
@@ -125,5 +114,13 @@ io.on('connection', (socket) => {
         emitUsersInRooms([...roomNames]);
     })
 });
+
+const emitUsersInRooms = (roomNames) => {
+    for (const roomName of roomNames) {
+        const socketsInRoom = new Set(io.sockets.adapter.rooms.get(roomName));
+        const usersInRoom = [...socketsInRoom].map(s => socketUserMap[s]);
+        io.emit('usersInRoom', usersInRoom, roomName);
+    }
+}
 
 server.listen(port, () => console.log(`Server is running on port http://localhost:${port}`));

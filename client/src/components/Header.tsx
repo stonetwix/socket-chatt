@@ -44,5 +44,5 @@ const layoutStyle: CSSProperties = {
   }
 
   const logoStyle: CSSProperties = {
-   width: '10rem',
+   width: '14rem',
   }
