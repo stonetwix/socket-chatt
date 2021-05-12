@@ -3,7 +3,7 @@ const http = require('http')
 const { Server } = require("socket.io");
 const bcrypt = require('bcrypt');
 
-const { formatMessage, getUser, saveUser } = require('./middlewares/handleMessages')
+const { formatMessage } = require('./middlewares/handleMessages')
 
 const app = express();
 const port = 3001;
@@ -14,7 +14,7 @@ const io = new Server(server, {
       origin: "http://localhost:3000",
       methods: ["GET", "POST"]
     }
-  })
+})
 
 const bot = 'Waffle bot';
 
@@ -22,7 +22,7 @@ const bot = 'Waffle bot';
 // room can be used in filter the user on a server
 let rooms = [];
 const messages = {};
-const username = [];
+const usernames = [];
 const authenticatedSockets = {};
 const socketUserMap = {};
 
@@ -46,14 +46,15 @@ io.on('connection', (socket) => {
         socket.emit('getAllMessages', messages[room.name] || []); 
 
         // //Sends a message to everyone that a new user has been connected to the room
-        const username = socketUserMap[socket.id]
+        const username = socketUserMap[socket.id];
         socket.broadcast.to(room.name).emit('message', formatMessage(bot, room.name, `${username} has joined Waffle!`))
+
+        emitUsersInRooms([room.name]);
     });
 
     socket.on('getRooms', () => {
         console.log('Get rooms: ', rooms)
         socket.emit('setRooms', rooms);
-        //console.log('sockets in room: ', io.sockets.adapter.rooms.get())
     });
 
     // Handle the chat messaging from user inputs
@@ -94,7 +95,6 @@ io.on('connection', (socket) => {
 
     socket.on('addUser', (username) => {
         socketUserMap[socket.id] = username;
-        //io.emit('message', username)
         console.log('addUser: ', socketUserMap);
     });
 
@@ -110,7 +110,17 @@ io.on('connection', (socket) => {
         const roomNamesToRemove = new Set([...roomNames].filter((x) => !socketRoomNames.has(x)));
         rooms = rooms.filter(r => !roomNamesToRemove.has(r.name));
         io.emit('setRooms', rooms);
+
+        emitUsersInRooms([...roomNames]);
     })
 });
+
+const emitUsersInRooms = (roomNames) => {
+    for (const roomName of roomNames) {
+        const socketsInRoom = new Set(io.sockets.adapter.rooms.get(roomName));
+        const usersInRoom = [...socketsInRoom].map(s => socketUserMap[s]);
+        io.emit('usersInRoom', usersInRoom, roomName);
+    }
+}
 
 server.listen(port, () => console.log(`Server is running on port http://localhost:${port}`));

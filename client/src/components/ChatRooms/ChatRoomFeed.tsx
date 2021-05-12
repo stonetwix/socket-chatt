@@ -22,6 +22,12 @@ class ChatRoomFeed extends Component<Props> {
     console.log('join room', this.props.room)
   }
 
+  usersInRoomString = () => {
+    const { usersInRoom } = this.context;
+    const users = usersInRoom[this.props.room.name] || [];
+    return users.join(', ');
+  }
+
   render() {
     return (
       <ChattContext.Consumer>
@@ -29,7 +35,7 @@ class ChatRoomFeed extends Component<Props> {
           return(
             <>
               <div style={activeUsers}>
-                <p style={{padding: '0.8rem 1rem'}}>Active users: </p>
+                <p style={{padding: '0.8rem 1rem'}}>Active users: {this.usersInRoomString()} </p>
               </div>
               <div style={containerStyle}>
                 <List 
