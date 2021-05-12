@@ -94,7 +94,7 @@ export default ReplyMessage;
 
 const textareastyle: CSSProperties = {
   display: "flex",
-  width: "100%",
+  width: "80%",
 };
 
 const replystyle: CSSProperties = {
@@ -102,7 +102,7 @@ const replystyle: CSSProperties = {
   flexDirection: "column",
   position: 'fixed',
   bottom: '0',
-  width: '70%',
+  width: '80%',
   marginBottom: '3rem',
 };
 
