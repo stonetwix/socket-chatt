@@ -39,29 +39,24 @@ class ChattProvider extends Component<{}, State> {
     componentDidMount = () => {
         // Fetches the rooms from server
         socket.on('roomCreated', (event) => {
-            console.log('Nytt rum: ', event);
             this.setState({ rooms: [...this.state.rooms, event] });
         })
 
         // Fetches the messenges from room
         socket.on('message', (event) => {
-            console.log('Message: ', event);
             this.setState({ messages: [...this.state.messages, event] });
         })
         
         // Fetches all the messenges from room
         socket.on('getAllMessages', (messages) => {
-            console.log('All messages: ', messages);
             this.setState({ messages: messages });
         })
 
         socket.on('updateRooms', (event) => {
-            console.log('Update rooms: ', event);
             this.setState({ rooms: [...this.state.rooms, event] });
         })
 
         socket.on('setRooms', (rooms) => {
-            console.log('Set rooms: ', rooms);
             this.setState({ rooms: rooms });
         })
 
@@ -79,7 +74,6 @@ class ChattProvider extends Component<{}, State> {
         socket.on('typing', (isTyping: boolean, username: string, roomName: string) => {
             let newUserTyping = {} as Record<string, string[]>;
             const users = this.state.usersTyping[roomName] || [];
-            console.log('Typing: ', isTyping, username, roomName)
             if (isTyping) {
                 newUserTyping = {
                     ...this.state.usersTyping,
@@ -97,7 +91,6 @@ class ChattProvider extends Component<{}, State> {
         socket.on('usersInRoom', (users, roomName) => {
             const usersInRoom = {...this.state.usersInRoom};
             usersInRoom[roomName] = users;
-            console.log(usersInRoom);
             this.setState({ usersInRoom: usersInRoom });
         })
 

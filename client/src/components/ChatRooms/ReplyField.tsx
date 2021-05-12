@@ -41,11 +41,8 @@ class ReplyMessage extends Component<Props, State> {
     
   }
 
-  // This function sends back the input value to the sever
-  // The input value will also be reset
   sendMsg = async () => {
     const { username } = this.context;
-     // A function that is imported from socketUtils
     sendMessage(username, this.props.room.name, this.state.msg)
     this.setState({msg:""})
     console.log('Stop typing');

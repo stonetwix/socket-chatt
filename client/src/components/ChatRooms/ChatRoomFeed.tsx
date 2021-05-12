@@ -19,7 +19,6 @@ class ChatRoomFeed extends Component<Props> {
   
   componentDidMount = () => {
     socket.emit('joinRoom', this.props.room);
-    console.log('join room', this.props.room)
   }
 
   usersInRoomString = () => {
@@ -44,7 +43,6 @@ class ChatRoomFeed extends Component<Props> {
                   renderItem={(item: any) => (
                     <Comment
                       author={item.user}
-                      // avatar={item.avatar}
                       content={item.msg}
                       datetime={item.time}
                     />

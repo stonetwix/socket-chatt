@@ -125,8 +125,7 @@ class AddNewRoom extends Component<Props, State> {
         )
     }
 
-    render() {
-        
+    render() {       
         const passwordField = this.state.isRoomPrivate ? this.createPasswordComponents() : <div></div>
     
         return (       
