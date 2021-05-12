@@ -89,6 +89,7 @@ aside {
   }
 }
 
-.ant-form-item-label::after{
+.ant-form-item-label {
+  overflow: unset;
 
 }
