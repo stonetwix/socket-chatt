@@ -31,7 +31,6 @@ io.on('connection', (socket) => {
     socket.on('joinRoom', (room) => {
         const authRooms = authenticatedSockets[socket.id] || [];
         if (room.isPrivate && !authRooms.find(roomName => room.name === roomName)) {
-            console.log('Not authenticated');
             return;
         }
 
@@ -68,7 +67,6 @@ io.on('connection', (socket) => {
         const room = rooms.find(room => room.name === roomName);
         if (!await bcrypt.compare(password, room.password)) {
             socket.emit('authenticatedRoom', { roomName: roomName, error: 'Invalid password' });
-            console.log('invalid password');
             return;
         }
         authenticatedSockets[socket.id] = [...authenticatedSockets[socket.id] || [], room.name];
