@@ -8,6 +8,7 @@ interface State {
     username: string,
     currentRoomName: string,
     usersTyping: Record<string, string[]>,
+    usersInRoom: Record<string, string[]>,
 }
 
 interface ContextValue extends State {
@@ -21,6 +22,7 @@ export const ChattContext = createContext<ContextValue>({
     username: '',
     currentRoomName: '',
     usersTyping: {},
+    usersInRoom: {},
     setUsername: () => {},
     setCurrentRoom: () => {},
 });
@@ -31,6 +33,7 @@ class ChattProvider extends Component<{}, State> {
         username: localStorage.getItem('username') as string,
         currentRoomName: '',
         usersTyping: {},
+        usersInRoom: {},
     }
  
     componentDidMount = () => {
@@ -91,6 +94,13 @@ class ChattProvider extends Component<{}, State> {
             this.setState({usersTyping: newUserTyping});
         })
 
+        socket.on('usersInRoom', (users, roomName) => {
+            const usersInRoom = {...this.state.usersInRoom};
+            usersInRoom[roomName] = users;
+            console.log(usersInRoom);
+            this.setState({ usersInRoom: usersInRoom });
+        })
+
         socket.emit('getRooms', {});
         socket.emit('addUser', this.state.username);
     }    
@@ -113,6 +123,7 @@ class ChattProvider extends Component<{}, State> {
                 username: this.state.username,
                 currentRoomName: this.state.currentRoomName,
                 usersTyping: this.state.usersTyping,
+                usersInRoom: this.state.usersInRoom,
                 setUsername: this.setUsername,
                 setCurrentRoom: this.setCurrentRoom,
             }}>

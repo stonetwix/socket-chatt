@@ -5,8 +5,6 @@ import { ChattContext } from '../chatContext';
 import { Room } from '../AddRoom/AddNewRoom';
 import istyping from '../../assets/typing2.gif'; 
 
-const { TextArea } = Input;
-
 interface Props {
   room: Room,
 }
@@ -123,6 +121,7 @@ async function fetchCatFacts() {
       console.log(error);
   }
 };
+
 async function fetchChuckNorris() {
   try {
       const url = "https://api.chucknorris.io/jokes/random";
