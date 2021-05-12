@@ -32,15 +32,10 @@ class Welcome extends Component <Props> {
           </h1>
           <p>
             {" "}
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea quasi
-            quam illum eos sit eveniet consequuntur cumque suscipit, optio minus
-            ipsum cum magnam fuga ratione iste omnis. Aspernatur, fuga mollitia!
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea quasi
-            quam illum eos sit eveniet consequuntur cumque suscipit, optio minus
-            ipsum cum magnam fuga ratione iste omnis. Aspernatur, fuga mollitia!
+            Waffle is a chatt app where you can create your own chat rooms and waffle with people from all over the world. If you want to waffle private to someone you can create a private room. You can also get random cat facts or a random Chuck Norris joke by typing /cat or /chuck in the message field. 
           </p>
 
-          <Divider plain>Start here!</Divider>
+          <Divider plain style={{marginTop: '2rem'}}>Start here!</Divider>
           <div style={formStyle}>
           <h3
             style={{
